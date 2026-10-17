@@ -3,286 +3,1633 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>포즈픽(PosePik) - AI 커플 포즈 가이드</title>
-  <meta name="description" content="포즈픽(PosePik) - 포즈 고민은 끝! AI가 커플 포즈를 가이드해주고, 매칭도 85% 이상이면 자동 촬영! 지금 무료 다운로드하세요.">
+  <title>포즈픽(PosePik) - AI 커플 & 솔로 포즈 가이드 | 85% 매칭 자동 촬영</title>
+  <meta name="description" content="포즈 고민은 끝! 커플 2인 모드(9가지 포즈)부터 새로 추가된 솔로 1인 모드(7가지 포즈)까지! AI가 실시간으로 포즈를 가이드하고 85% 이상 매칭되면 자동 촬영해줘요.">
   
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="포즈픽(PosePik) - AI 커플 포즈 가이드">
-  <meta property="og:description" content="포즈픽(PosePik)으로 포즈 고민은 끝! AI가 커플 포즈를 가이드해주고, 매칭도 85% 이상이면 자동 촬영! 지금 무료 다운로드하세요.">
+  <meta property="og:title" content="포즈픽(PosePik) - AI 커플 & 솔로 포즈 가이드">
+  <meta property="og:description" content="혼자서도, 둘이서도! 총 16가지 포즈 가이드 & 85% 매칭 시 자동 촬영, 랜덤 뽑기, 타임어택까지 지금 무료로 즐기세요.">
   <meta property="og:site_name" content="포즈픽 PosePik">
+  <meta property="og:image" content="images/screens/main.png">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
   
+  <!-- Tailwind CSS & Canvas Confetti -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  
+  <!-- Fonts: Bagel Fat One & Pretendard -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { display: ['"Bagel Fat One"','cursive'], body: ['"Noto Sans KR"','sans-serif'] },
-          colors: { peach:'#FFB088', candy:'#FF4D6D', cream:'#FFFAF5', dark:'#1A1A1A', charcoal:'#2B2B2B' },
+          fontFamily: {
+            display: ['"Bagel Fat One"', 'cursive'],
+            body: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            candy: '#E83E68',
+            vividPurple: '#B535E8',
+            sunsetOrange: '#F97316',
+            peach: '#FFB088',
+            cream: '#FFF9FB',
+            dark: '#14141F',
+            charcoal: '#1E1E2E',
+          },
           animation: {
-            'float':'float 3s ease-in-out infinite','float-delay':'float 3s ease-in-out 1s infinite',
-            'float-delay2':'float 3s ease-in-out 2s infinite','bounce-slow':'bounce 2.5s ease-in-out infinite',
-            'fade-up':'fadeUp .8s ease-out forwards','fade-up-d1':'fadeUp .8s ease-out .15s forwards',
-            'fade-up-d2':'fadeUp .8s ease-out .3s forwards','fade-up-d3':'fadeUp .8s ease-out .45s forwards',
-            'heartbeat':'heartbeat 1.5s ease-in-out infinite',
+            'float': 'float 4s ease-in-out infinite',
+            'float-delay': 'float 4.5s ease-in-out 1.2s infinite',
+            'float-delay2': 'float 5s ease-in-out 2.4s infinite',
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+            'heartbeat': 'heartbeat 1.5s ease-in-out infinite',
+            'spin-slow': 'spin 12s linear infinite',
           },
           keyframes: {
-            float:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-14px)'}},
-            fadeUp:{'0%':{opacity:'0',transform:'translateY(35px)'},'100%':{opacity:'1',transform:'translateY(0)'}},
-            heartbeat:{'0%,100%':{transform:'scale(1)'},'15%':{transform:'scale(1.15)'},'30%':{transform:'scale(1)'},'45%':{transform:'scale(1.1)'},'60%':{transform:'scale(1)'}},
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-14px) rotate(1.5deg)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.45', transform: 'scale(1)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.08)' },
+            },
+            heartbeat: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '15%': { transform: 'scale(1.18)' },
+              '30%': { transform: 'scale(1)' },
+              '45%': { transform: 'scale(1.12)' },
+              '60%': { transform: 'scale(1)' },
+            },
           },
         },
       },
     }
   </script>
+
   <style>
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Noto Sans KR',sans-serif;overflow-x:hidden}
-    .reveal{opacity:0;transform:translateY(40px);transition:all .7s cubic-bezier(.16,1,.3,1)}.reveal.visible{opacity:1;transform:translateY(0)}
-    .phone-frame{width:240px;height:490px;border-radius:40px;border:6px solid #1A1A1A;background:#fff;position:relative;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.18)}
-    .phone-frame::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#1A1A1A;border-radius:0 0 20px 20px;z-index:10}
-    .phone-frame::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:100px;height:4px;background:#1A1A1A;border-radius:4px;z-index:10}
-    @media(max-width:640px){.phone-frame{width:200px;height:410px;border-radius:34px}.phone-frame::before{width:90px;height:26px;border-radius:0 0 16px 16px}}
-    .screen{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:42px 14px 24px;text-align:center}
-    .blob{border-radius:30% 70% 70% 30%/30% 30% 70% 70%;position:absolute;filter:blur(50px);opacity:.3;pointer-events:none}
-    .feature-card{transition:all .35s cubic-bezier(.16,1,.3,1)}.feature-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.08)}
-    .cta-btn{transition:all .3s cubic-bezier(.16,1,.3,1)}.cta-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 14px 35px rgba(244,63,94,.35)}.cta-btn:active{transform:scale(.97)}
-    .gradient-text{background:linear-gradient(135deg,#FF4D6D,#FFB088,#FF4D6D);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShift 4s ease-in-out infinite}
-    @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-    .nav-blur{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-    .step-line{position:relative}.step-line::before{content:'';position:absolute;left:27px;top:56px;bottom:-32px;width:2px;background:linear-gradient(to bottom,#FDA4AF,transparent)}.step-line:last-child::before{display:none}
-    .marquee-track{display:flex;animation:marquee 25s linear infinite;width:max-content}@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-    .percentage-ring{transform:rotate(-90deg)}.emoji-particle{position:absolute;pointer-events:none;user-select:none}
-    /* Screenshots: make images fill phone frames */
-    .phone-frame .screen{padding:0}
-    .screen-img{width:100%;height:100%;object-fit:cover;display:block}
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      background-color: #FFF9FB;
+      color: #14141F;
+    }
+
+    /* Interactive Cursor Spotlight */
+    #cursor-glow {
+      position: fixed;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,62,104,0.10) 0%, rgba(181,53,232,0.07) 40%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      transition: width 0.3s, height 0.3s;
+    }
+
+    /* App Original Brand Gradient Text */
+    .posepik-gradient-text {
+      background: linear-gradient(135deg, #FF3366 0%, #B535E8 50%, #FF7A45 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradShift 5s ease-in-out infinite;
+    }
+    @keyframes gradShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* App Original Pill Buttons (Double Bezel Liquid Glass like Main Screen) */
+    .app-pill-shell {
+      padding: 6px;
+      border-radius: 9999px;
+      background: rgba(230, 224, 234, 0.65);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.06), 0 10px 25px rgba(181, 53, 232, 0.12);
+      backdrop-filter: blur(12px);
+      display: inline-block;
+    }
+    .btn-app-random {
+      background: linear-gradient(90deg, #B535E8 0%, #E83E68 100%);
+      box-shadow: 0 8px 20px rgba(212, 56, 150, 0.35);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-app-random:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(212, 56, 150, 0.5);
+    }
+    .btn-app-timeattack {
+      background: linear-gradient(90deg, #F59E0B 0%, #EF4444 100%);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.32);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-app-timeattack:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(239, 68, 68, 0.48);
+    }
+
+    /* Liquid Glass Card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 20px 50px rgba(20, 20, 31, 0.06);
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(232, 62, 104, 0.16);
+      box-shadow: 0 12px 32px rgba(232, 62, 104, 0.10);
+    }
+
+    /* 3D Tilt Cards */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.25s cubic-bezier(0.03, 0.98, 0.52, 0.99), box-shadow 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .tilt-card:hover {
+      box-shadow: 0 28px 60px rgba(232, 62, 104, 0.12);
+    }
+    .tilt-glare {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.65), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 20;
+    }
+    .tilt-card:hover .tilt-glare {
+      opacity: 0.45;
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Realistic iPhone 16 Pro Mockup */
+    .iphone-mockup {
+      width: 268px;
+      height: 556px;
+      border-radius: 46px;
+      border: 8px solid #1E1E28;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 35px 80px -15px rgba(20, 20, 31, 0.28), 0 0 0 2px rgba(255,255,255,0.4) inset;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .iphone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 86px;
+      height: 24px;
+      background: #14141F;
+      border-radius: 999px;
+      z-index: 25;
+    }
+    .iphone-mockup::after {
+      content: '';
+      position: absolute;
+      bottom: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 105px;
+      height: 4px;
+      background: rgba(20, 20, 31, 0.35);
+      border-radius: 4px;
+      z-index: 25;
+    }
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Camera Shutter Flash Effect */
+    #camera-flash {
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.08s ease-out;
+    }
+    #camera-flash.flash-active {
+      opacity: 0.95;
+      transition: none;
+    }
+
+    /* Circular SVG Gauge Transition */
+    .gauge-circle {
+      transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    /* Marquee */
+    .marquee-track {
+      display: flex;
+      animation: marquee 28s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Disclaimer Badge */
+    .disclaimer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #6B7280;
+      background: rgba(243, 244, 246, 0.85);
+      border: 1px solid rgba(209, 213, 219, 0.6);
+      padding: 5px 12px;
+      border-radius: 9999px;
+    }
+
+    /* Screen Showcase Active State */
+    .showcase-item {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .showcase-item.inactive {
+      transform: scale(0.88) translateY(16px);
+      opacity: 0.65;
+      filter: blur(0.5px);
+    }
+    .showcase-item.active {
+      transform: scale(1.03) translateY(0);
+      opacity: 1;
+      z-index: 20;
+    }
+
+    /* Badge Card Unlock */
+    .badge-item {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .badge-item.unlocked {
+      background: linear-gradient(145deg, #ffffff, #fff0f5);
+      border-color: rgba(232, 62, 104, 0.45);
+      box-shadow: 0 16px 35px rgba(232, 62, 104, 0.16);
+      transform: translateY(-5px) scale(1.02);
+    }
   </style>
 </head>
-<body class="bg-cream text-dark font-body">
+<body class="selection:bg-candy selection:text-white relative">
 
-  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur bg-cream/80 border-b border-rose-200/30">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2"><span class="text-2xl">💕</span><span class="font-display text-2xl text-candy">포즈픽 PosePik</span></a>
-      <div class="flex items-center gap-3 sm:gap-6">
-        <a href="#features" class="text-sm text-dark/60 hover:text-candy transition-colors hidden sm:block">기능</a>
-        <a href="#how" class="text-sm text-dark/60 hover:text-candy transition-colors hidden sm:block">사용법</a>
-        <a href="#screens" class="text-sm text-dark/60 hover:text-candy transition-colors hidden sm:block">미리보기</a>
-        <a href="https://apps.apple.com/kr/app/%ED%8F%AC%EC%A6%88%ED%94%BD/id6757504051" class="bg-candy text-white text-sm font-bold px-5 py-2.5 rounded-full hover:bg-rose-600 transition-colors shadow-sm" target="_blank" rel="noopener noreferrer">무료 다운로드</a>
+  <!-- Camera Flash Overlay -->
+  <div id="camera-flash"></div>
+
+  <!-- Interactive Cursor Glow -->
+  <div id="cursor-glow" class="hidden md:block"></div>
+
+  <!-- Toast Notification for Interactive Simulation -->
+  <div id="badge-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-28 opacity-0 transition-all duration-500 pointer-events-none">
+    <div class="glass-card bg-white/95 border-2 border-candy/30 rounded-2xl p-4 shadow-2xl flex items-center gap-4 max-w-sm">
+      <div id="toast-icon" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-candy to-vividPurple flex items-center justify-center text-2xl text-white shadow-md shrink-0">💕</div>
+      <div>
+        <div class="text-[11px] font-extrabold text-candy uppercase tracking-wider">📸 85% 매칭 자동 촬영 완료!</div>
+        <div id="toast-title" class="font-bold text-dark text-sm mt-0.5">'하트 장인' 뱃지를 획득했어요!</div>
+        <div class="text-[11px] text-gray-400 mt-0.5">* 실제 앱 환경과는 상이할 수 있습니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/75 border-b border-rose-200/40 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-18 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-candy via-vividPurple to-sunsetOrange flex items-center justify-center text-white shadow-md group-hover:rotate-6 transition-transform">
+          <span class="text-lg">📸</span>
+        </div>
+        <div class="flex items-baseline gap-1.5">
+          <span class="font-display text-2xl posepik-gradient-text">PosePik</span>
+          <span class="text-xs font-extrabold text-dark/70 hidden sm:inline">포즈픽</span>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-7 text-sm font-semibold text-dark/70">
+        <a href="#simulator" class="hover:text-candy transition-colors flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-candy animate-ping"></span> AI 매칭 체험
+        </a>
+        <a href="#features" class="hover:text-candy transition-colors">1인·2인 모드 & 랜덤뽑기</a>
+        <a href="#screens" class="hover:text-candy transition-colors">실제 앱 화면</a>
+        <a href="#badges" class="hover:text-candy transition-colors">뱃지 & 스토리</a>
+        <a href="contact.html" class="hover:text-candy transition-colors">문의하기</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="https://apps.apple.com/kr/app/%ED%8F%AC%EC%A6%88%ED%94%BD/id6757504051" target="_blank" rel="noopener noreferrer"
+           class="btn-app-random text-white text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-1.5 shadow-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span>무료 다운로드</span>
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
-    <div class="blob w-80 h-80 bg-rose-300 top-10 -left-20 animate-float"></div>
-    <div class="blob w-96 h-96 bg-peach/40 top-32 right-0 animate-float-delay"></div>
-    <div class="blob w-64 h-64 bg-rose-200 bottom-20 left-1/4 animate-float-delay2"></div>
-    <div class="emoji-particle top-[12%] left-[6%] animate-float text-3xl sm:text-4xl opacity-60">💑</div>
-    <div class="emoji-particle top-[22%] right-[8%] animate-float-delay text-2xl sm:text-3xl opacity-50">📸</div>
-    <div class="emoji-particle bottom-[28%] left-[10%] animate-float-delay2 text-2xl sm:text-3xl opacity-50">✌️</div>
-    <div class="emoji-particle bottom-[22%] right-[6%] animate-float text-3xl sm:text-4xl opacity-60">❤️</div>
-    <div class="emoji-particle top-[55%] left-[3%] animate-float-delay text-xl opacity-40">🏆</div>
+  <!-- HERO SECTION -->
+  <section class="relative min-h-screen pt-24 pb-16 sm:pt-32 sm:pb-24 flex items-center overflow-hidden">
+    <!-- Aurora Background Blobs -->
+    <div class="absolute -top-20 -left-24 w-96 h-96 bg-rose-300/35 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
+    <div class="absolute top-1/4 -right-24 w-[28rem] h-[28rem] bg-purple-300/30 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: 1.5s"></div>
+    <div class="absolute bottom-10 left-1/3 w-80 h-80 bg-orange-200/35 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: 3s"></div>
 
-    <div class="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2 mb-6 shadow-sm animate-fade-up border border-rose-100">
-        <span class="text-xs font-bold text-candy bg-candy/10 rounded-full px-2 py-0.5">NEW</span>
-        <span class="text-sm font-medium text-dark/60">포즈픽(PosePik) AI 커플 포즈 가이드 앱 🔥</span>
-      </div>
-      <h1 class="font-display text-[2.8rem] sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] mb-6 opacity-0 animate-fade-up-d1">포즈 고민은 끝,<br><span class="gradient-text">촬영을 놀이로!</span></h1>
-      <p class="text-lg sm:text-xl md:text-2xl text-dark/55 font-medium mb-4 max-w-2xl mx-auto opacity-0 animate-fade-up-d2 leading-relaxed">AI가 커플 포즈를 실시간으로 인식해서<br class="hidden sm:block"> 매칭도 85% 이상이면 <strong class="text-candy">자동으로 찰칵!</strong> 📸</p>
-      <p class="text-sm text-dark/40 mb-10 opacity-0 animate-fade-up-d2">iOS 전용 · 무료 다운로드 · 9가지 커플 포즈</p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up-d3">
-        <a href="https://apps.apple.com/kr/app/%ED%8F%AC%EC%A6%88%ED%94%BD/id6757504051" class="cta-btn bg-candy text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-lg flex items-center gap-3" target="_blank" rel="noopener noreferrer">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          App Store에서 무료 다운로드
-        </a>
-      </div>
-      <div class="flex items-center justify-center gap-6 sm:gap-10 mt-14 opacity-0 animate-fade-up-d3">
-        <div class="text-center"><div class="font-display text-2xl sm:text-3xl text-candy">9가지</div><div class="text-xs sm:text-sm text-dark/40 mt-1">커플 포즈</div></div>
-        <div class="w-px h-10 bg-dark/10"></div>
-        <div class="text-center"><div class="font-display text-2xl sm:text-3xl text-candy">85%</div><div class="text-xs sm:text-sm text-dark/40 mt-1">매칭 시 자동촬영</div></div>
-        <div class="w-px h-10 bg-dark/10"></div>
-        <div class="text-center"><div class="font-display text-2xl sm:text-3xl text-candy">FREE</div><div class="text-xs sm:text-sm text-dark/40 mt-1">완전 무료</div></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Column: Hero Copy & Mode Switcher -->
+        <div class="lg:col-span-7 text-center lg:text-left">
+          <!-- Major Update Pill -->
+          <div class="inline-flex items-center gap-2 glass-pill rounded-full px-4 py-2 mb-6 animate-bounce">
+            <span class="bg-gradient-to-r from-candy to-vividPurple text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wide">NEW UPDATE</span>
+            <span class="text-xs sm:text-sm font-bold text-dark/80">🍡 솔로 1인 모드(7가지 포즈) 전격 추가!</span>
+          </div>
+
+          <h1 class="font-display text-4xl sm:text-6xl xl:text-7xl leading-[1.12] tracking-tight mb-6">
+            혼자서도, 둘이서도<br>
+            <span class="posepik-gradient-text">촬영을 놀이처럼!</span>
+          </h1>
+
+          <p class="text-base sm:text-xl text-dark/65 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
+            카메라 앞 어색함은 이제 끝! <strong class="text-dark font-bold">커플 9가지 포즈</strong>와 새로 추가된 <strong class="text-vividPurple font-bold">솔로 7가지 포즈</strong>를 AI가 실시간 분석해 매칭도 <strong class="text-candy font-extrabold">85% 이상이면 5초 뒤 자동으로 찰칵!</strong> 📸
+          </p>
+
+          <!-- Quick Mode Preview Pills -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 mb-8">
+            <a href="#simulator" onclick="switchSimMode('couple')" class="group flex items-center gap-2 bg-white hover:bg-rose-50 border border-rose-200 rounded-2xl px-4 py-2.5 shadow-sm transition-all">
+              <span class="text-xl group-hover:scale-110 transition-transform">💑</span>
+              <div class="text-left">
+                <div class="text-xs font-extrabold text-candy">커플 2인 모드</div>
+                <div class="text-[11px] text-dark/50">9가지 포즈 · 랜덤 · 타임어택</div>
+              </div>
+            </a>
+            <a href="#simulator" onclick="switchSimMode('solo')" class="group flex items-center gap-2 bg-white hover:bg-purple-50 border border-purple-200 rounded-2xl px-4 py-2.5 shadow-sm transition-all">
+              <span class="text-xl group-hover:scale-110 transition-transform">🍡</span>
+              <div class="text-left">
+                <div class="text-xs font-extrabold text-vividPurple flex items-center gap-1">솔로 1인 모드 <span class="bg-vividPurple/10 text-vividPurple text-[10px] px-1.5 py-0.2 rounded-full">NEW</span></div>
+                <div class="text-[11px] text-dark/50">7가지 포즈 · 랜덤 · 타임어택</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Primary CTA Buttons -->
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <a href="https://apps.apple.com/kr/app/%ED%8F%AC%EC%A6%88%ED%94%BD/id6757504051" target="_blank" rel="noopener noreferrer"
+               class="w-full sm:w-auto btn-app-random text-white font-bold text-base sm:text-lg px-8 py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl">
+              <svg class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              <span>App Store 무료 다운로드</span>
+            </a>
+            <a href="#simulator"
+               class="w-full sm:w-auto glass-card hover:bg-white text-dark font-bold text-base px-7 py-4 rounded-2xl flex items-center justify-center gap-2 border border-dark/10 hover:border-candy/40 transition-all">
+              <span>🎮 웹에서 포즈 매칭 체험하기</span>
+            </a>
+          </div>
+
+          <!-- Key Stats Bar -->
+          <div class="grid grid-cols-4 gap-3 sm:gap-6 mt-12 pt-8 border-t border-rose-200/50 max-w-xl mx-auto lg:mx-0">
+            <div>
+              <div class="font-display text-2xl sm:text-3xl posepik-gradient-text">16종</div>
+              <div class="text-[11px] sm:text-xs font-semibold text-dark/50 mt-1">커플 9 + 솔로 7</div>
+            </div>
+            <div>
+              <div class="font-display text-2xl sm:text-3xl text-candy">85%</div>
+              <div class="text-[11px] sm:text-xs font-semibold text-dark/50 mt-1">매칭 시 자동촬영</div>
+            </div>
+            <div>
+              <div class="font-display text-2xl sm:text-3xl text-vividPurple">30FPS</div>
+              <div class="text-[11px] sm:text-xs font-semibold text-dark/50 mt-1">초저지연 AI 인식</div>
+            </div>
+            <div>
+              <div class="font-display text-2xl sm:text-3xl text-sunsetOrange">FREE</div>
+              <div class="text-[11px] sm:text-xs font-semibold text-dark/50 mt-1">iOS 완전 무료</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: 3D Parallax Dual iPhone Showcase -->
+        <div class="lg:col-span-5 relative flex items-center justify-center min-h-[540px]" id="hero-phones-Area">
+          <!-- Decorative Ring -->
+          <div class="absolute w-80 h-80 sm:w-96 sm:h-96 rounded-full border-2 border-dashed border-candy/25 animate-spin-slow pointer-events-none"></div>
+
+          <!-- Back Phone (Pose Guide Screen) -->
+          <div id="hero-phone-back" class="iphone-mockup !w-[235px] !h-[488px] sm:!w-[250px] sm:!h-[520px] transform translate-x-12 sm:translate-x-20 -translate-y-6 rotate-6 opacity-90 shadow-2xl">
+            <img src="images/screens/guide.png" alt="포즈픽 포즈 가이드 평가 기준 화면" class="iphone-screen">
+          </div>
+
+          <!-- Front Phone (Main Screen) -->
+          <div id="hero-phone-front" class="iphone-mockup !w-[245px] !h-[510px] sm:!w-[265px] sm:!h-[550px] transform -translate-x-8 sm:-translate-x-10 translate-y-4 -rotate-3 z-20 shadow-2xl">
+            <img src="images/screens/main.png" alt="포즈픽 메인 화면" class="iphone-screen">
+          </div>
+
+          <!-- Floating Interactive Badges around Phones -->
+          <div class="glass-pill rounded-2xl px-4 py-2.5 absolute top-4 left-0 sm:-left-4 z-30 animate-float flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-xl bg-emerald-500/15 flex items-center justify-center text-lg">🤝</span>
+            <div>
+              <div class="text-[11px] font-bold text-dark/50">커플 2인 · 33% (3/9 완료)</div>
+              <div class="text-xs font-extrabold text-candy">손 놓으면 지는 거</div>
+            </div>
+          </div>
+
+          <div class="glass-pill rounded-2xl px-4 py-2.5 absolute bottom-16 -right-2 sm:-right-6 z-30 animate-float-delay flex items-center gap-2.5 border-purple-300/50">
+            <span class="w-8 h-8 rounded-xl bg-vividPurple/15 flex items-center justify-center text-lg">🍡</span>
+            <div>
+              <div class="text-[11px] font-bold text-vividPurple">NEW 솔로 1인 · 7가지 포즈</div>
+              <div class="text-xs font-extrabold text-dark">말랑콩떡 (볼콕 100%)</div>
+            </div>
+          </div>
+
+          <div class="glass-pill rounded-full px-4 py-2 absolute top-1/2 -left-2 sm:-left-8 z-30 animate-float-delay2 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-ping"></span>
+            <span class="text-xs font-extrabold text-dark">85% 달성 시 5초 자동촬영 📸</span>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-slow"><div class="w-6 h-10 border-2 border-dark/15 rounded-full flex items-start justify-center p-1.5"><div class="w-1.5 h-3 bg-candy/60 rounded-full animate-bounce"></div></div></div>
   </section>
 
-  <!-- MARQUEE -->
-  <section class="py-3 bg-gradient-to-r from-candy via-rose-500 to-candy overflow-hidden">
+  <!-- DYNAMIC MARQUEE BANNER -->
+  <section class="py-3.5 bg-gradient-to-r from-candy via-vividPurple to-sunsetOrange overflow-hidden shadow-inner">
     <div class="marquee-track">
-      <span class="text-white/90 font-display text-base px-5">커플 포즈 가이드 💕</span><span class="text-white/90 font-display text-base px-5">AI 포즈 인식 🤖</span><span class="text-white/90 font-display text-base px-5">자동 촬영 📸</span><span class="text-white/90 font-display text-base px-5">랜덤 포즈 챌린지 🎰</span><span class="text-white/90 font-display text-base px-5">타임어택 모드 ⏱️</span><span class="text-white/90 font-display text-base px-5">배지 수집 🏅</span><span class="text-white/90 font-display text-base px-5">무료 다운로드 🎉</span>
-      <span class="text-white/90 font-display text-base px-5">커플 포즈 가이드 💕</span><span class="text-white/90 font-display text-base px-5">AI 포즈 인식 🤖</span><span class="text-white/90 font-display text-base px-5">자동 촬영 📸</span><span class="text-white/90 font-display text-base px-5">랜덤 포즈 챌린지 🎰</span><span class="text-white/90 font-display text-base px-5">타임어택 모드 ⏱️</span><span class="text-white/90 font-display text-base px-5">배지 수집 🏅</span><span class="text-white/90 font-display text-base px-5">무료 다운로드 🎉</span>
+      <span class="text-white font-display text-base sm:text-lg px-6">💑 커플 2인 모드 (9가지 포즈)</span>
+      <span class="text-white/95 font-display text-base sm:text-lg px-6">🍡 NEW 솔로 1인 모드 (7가지 포즈)</span>
+      <span class="text-white font-display text-base sm:text-lg px-6">🤖 온디바이스 AI 실시간 인식</span>
+      <span class="text-white/95 font-display text-base sm:text-lg px-6">📸 85% 매칭 자동 촬영</span>
+      <span class="text-white font-display text-base sm:text-lg px-6">🎲 랜덤 포즈 뽑기 (1인·2인 모두 지원)</span>
+      <span class="text-white/95 font-display text-base sm:text-lg px-6">⏱️ 타임어택 챌린지 (1인·2인 모두 지원)</span>
+      <span class="text-white font-display text-base sm:text-lg px-6">🏅 10종 특별 뱃지 수집</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="text-white font-display text-base sm:text-lg px-6">💑 커플 2인 모드 (9가지 포즈)</span>
+      <span class="text-white/95 font-display text-base sm:text-lg px-6">🍡 NEW 솔로 1인 모드 (7가지 포즈)</span>
+      <span class="text-white font-display text-base sm:text-lg px-6">🤖 온디바이스 AI 실시간 인식</span>
+      <span class="text-white/95 font-display text-base sm:text-lg px-6">📸 85% 매칭 자동 촬영</span>
+      <span class="text-white font-display text-base sm:text-lg px-6">🎲 랜덤 포즈 뽑기 (1인·2인 모두 지원)</span>
+      <span class="text-white/95 font-display text-base sm:text-lg px-6">⏱️ 타임어택 챌린지 (1인·2인 모두 지원)</span>
+      <span class="text-white font-display text-base sm:text-lg px-6">🏅 10종 특별 뱃지 수집</span>
     </div>
   </section>
 
-  <!-- CORE CONCEPT -->
-  <section class="py-20 sm:py-28 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <div class="reveal">
-        <div class="inline-block bg-rose-50 rounded-full px-5 py-2 mb-6 border border-rose-100"><span class="text-sm font-bold text-candy">핵심 원리 💡</span></div>
-        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl mb-6">카메라 켜고, <span class="text-candy">포즈 따라하면 끝!</span></h2>
-        <p class="text-dark/50 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-12">Apple Vision Framework 기반 AI가 두 사람의 포즈를 실시간으로 인식합니다. 화면 속 가이드 포즈와의 매칭도가 <strong class="text-dark/70">85% 이상</strong>이 되면 <strong class="text-dark/70">5초 카운트다운</strong> 후 자동으로 사진이 촬영돼요.</p>
+  <!-- INTERACTIVE LAB 1: AI POSE MATCHING SIMULATOR -->
+  <section id="simulator" class="py-20 sm:py-28 px-4 sm:px-6 relative">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10 reveal">
+        <div class="inline-flex items-center gap-2 bg-rose-100/80 border border-rose-200 rounded-full px-4 py-1.5 mb-4">
+          <span class="text-xs font-extrabold text-candy">INTERACTIVE PLAYGROUND 🎮</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-5xl mb-4">
+          직접 눌러보는 <span class="posepik-gradient-text">AI 포즈 매칭 시뮬레이터</span>
+        </h2>
+        <p class="text-dark/60 text-sm sm:text-base max-w-2xl mx-auto">
+          커플(2인) 모드와 새로 추가된 솔로(1인) 모드의 평가 기준을 클릭해보세요!<br class="hidden sm:block">
+          합산 매칭도가 <strong class="text-candy">85% 이상</strong>이 되면 카운트다운과 함께 <strong>자동 촬영 플래시</strong>가 터집니다.
+        </p>
+        <!-- Required Disclaimer -->
+        <div class="mt-4">
+          <span class="disclaimer-pill">
+            <svg class="w-3.5 h-3.5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            이 콘텐츠는 실제 앱 환경과는 상이할 수 있습니다.
+          </span>
+        </div>
       </div>
-      <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-2">
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-rose-50 w-full sm:w-auto sm:flex-1 max-w-[200px]"><div class="text-3xl mb-2">📱</div><div class="font-bold text-sm">포즈 선택</div><div class="text-xs text-dark/40 mt-1">9가지 커플 포즈 중<br>하나를 골라요</div></div>
-        <div class="text-candy text-2xl hidden sm:block">→</div><div class="text-candy text-2xl sm:hidden">↓</div>
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-rose-50 w-full sm:w-auto sm:flex-1 max-w-[200px]"><div class="text-3xl mb-2">🤖</div><div class="font-bold text-sm">AI 포즈 인식</div><div class="text-xs text-dark/40 mt-1">실시간으로 두 사람의<br>포즈를 분석해요</div></div>
-        <div class="text-candy text-2xl hidden sm:block">→</div><div class="text-candy text-2xl sm:hidden">↓</div>
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-rose-50 w-full sm:w-auto sm:flex-1 max-w-[200px]"><div class="text-3xl mb-2">🎯</div><div class="font-bold text-sm">85% 매칭!</div><div class="text-xs text-dark/40 mt-1">가이드와 매칭도가<br>85% 이상이면</div></div>
-        <div class="text-candy text-2xl hidden sm:block">→</div><div class="text-candy text-2xl sm:hidden">↓</div>
-        <div class="bg-candy/5 rounded-2xl p-5 shadow-sm border border-candy/20 w-full sm:w-auto sm:flex-1 max-w-[200px]"><div class="text-3xl mb-2 animate-heartbeat">📸</div><div class="font-bold text-sm text-candy">자동 촬영!</div><div class="text-xs text-dark/40 mt-1">5초 카운트다운 후<br>자동으로 찰칵!</div></div>
+
+      <!-- Mode Switcher Tabs (Couple vs Solo) -->
+      <div class="flex justify-center mb-8 reveal">
+        <div class="app-pill-shell p-1.5 inline-flex gap-1.5 bg-gray-200/80">
+          <button id="sim-tab-couple" onclick="switchSimMode('couple')"
+                  class="px-5 sm:px-7 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all bg-gradient-to-r from-candy to-vividPurple text-white shadow-md flex items-center gap-2">
+            <span>💑</span> 커플 2인 모드 <span class="text-xs bg-white/20 px-2 py-0.5 rounded-full">9가지 포즈</span>
+          </button>
+          <button id="sim-tab-solo" onclick="switchSimMode('solo')"
+                  class="px-5 sm:px-7 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all text-dark/60 hover:text-dark flex items-center gap-2">
+            <span>🍡</span> 솔로 1인 모드 <span class="text-xs bg-vividPurple/15 text-vividPurple px-2 py-0.5 rounded-full">NEW · 7가지 포즈</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Simulator Main Card -->
+      <div class="glass-card rounded-[2.2rem] p-6 sm:p-10 border-2 border-white shadow-xl reveal relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left: Circular Gauge & Pose Illustration Card -->
+          <div class="lg:col-span-5 flex flex-col items-center text-center bg-gradient-to-b from-rose-50/70 to-purple-50/50 rounded-3xl p-6 sm:p-8 border border-rose-100/80 relative">
+            <div id="sim-mode-badge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-candy/10 text-candy mb-3">
+              커플 2인 대표 포즈
+            </div>
+            <h3 id="sim-pose-title" class="font-display text-2xl sm:text-3xl posepik-gradient-text mb-1">
+              손 놓으면 지는 거
+            </h3>
+            <p id="sim-pose-desc" class="text-xs sm:text-sm text-dark/55 mb-6">
+              손을 꼭 잡아주세요
+            </p>
+
+            <!-- SVG Circular Progress Gauge (Matches App UI) -->
+            <div class="relative w-48 h-48 sm:w-52 sm:h-52 flex items-center justify-center mb-6">
+              <svg class="w-full h-full" viewBox="0 0 200 200">
+                <defs>
+                  <linearGradient id="posepikGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#E83E68" />
+                    <stop offset="50%" stop-color="#B535E8" />
+                    <stop offset="100%" stop-color="#F97316" />
+                  </linearGradient>
+                </defs>
+                <!-- Background Track -->
+                <circle cx="100" cy="100" r="82" fill="none" stroke="#E5E7EB" stroke-width="18" />
+                <!-- Animated Value Ring -->
+                <circle id="sim-gauge-ring" class="gauge-circle" cx="100" cy="100" r="82" fill="none"
+                        stroke="url(#posepikGrad)" stroke-width="18" stroke-linecap="round"
+                        stroke-dasharray="515.22" stroke-dashoffset="515.22" />
+              </svg>
+              <!-- Center Percentage & Countdown -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span id="sim-emoji" class="text-2xl mb-0.5">🤝💑</span>
+                <div class="font-extrabold text-4xl sm:text-5xl posepik-gradient-text tracking-tight">
+                  <span id="sim-score-text">0</span>%
+                </div>
+                <div id="sim-status-text" class="text-xs font-bold text-dark/45 mt-1">
+                  85% 이상 시 자동촬영
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-2.5 w-full">
+              <button onclick="runAutoMatchDemo()"
+                      class="w-full py-3.5 px-5 rounded-2xl btn-app-random text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg">
+                <span>🔥 원클릭 100% 매칭 & 촬영 체험</span>
+              </button>
+              <button onclick="resetSimCriteria()"
+                      class="text-xs font-bold text-dark/45 hover:text-dark underline py-1">
+                게이지 초기화 (0%)
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Evaluation Criteria List (Matches images/screens/guide.png) -->
+          <div class="lg:col-span-7">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="text-candy font-extrabold text-lg">☑️</span>
+                <span class="font-extrabold text-lg sm:text-xl text-dark">이렇게 평가해요</span>
+              </div>
+              <span class="text-xs font-semibold text-candy bg-rose-50 border border-rose-200 px-3 py-1 rounded-full">
+                👇 항목을 직접 클릭해 점수를 올려보세요!
+              </span>
+            </div>
+
+            <!-- Criteria Cards Container (Rendered dynamically via JS) -->
+            <div id="sim-criteria-list" class="space-y-3"></div>
+
+            <!-- Voice TTS Feedback Bubble -->
+            <div class="mt-5 bg-dark text-white rounded-2xl p-4 flex items-center justify-between gap-4 shadow-md">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl shrink-0 animate-pulse">🔊</div>
+                <div>
+                  <div class="text-[11px] font-bold text-rose-300 uppercase">AI 실시간 음성 가이드 (TTS)</div>
+                  <div id="sim-tts-message" class="text-xs sm:text-sm font-medium text-white/90 mt-0.5">
+                    "아래 평가 항목을 클릭하거나 '원클릭 매칭 체험'을 눌러 포즈를 완성해보세요!"
+                  </div>
+                </div>
+              </div>
+              <div id="sim-countdown-badge" class="hidden shrink-0 px-3.5 py-1.5 rounded-xl bg-candy text-white font-display text-xl animate-bounce">
+                5s
+              </div>
+            </div>
+
+            <div class="mt-3 flex items-center justify-between text-[11px] text-gray-400 px-1">
+              <span>* 실제 앱에서는 Apple Vision AI가 카메라로 실시간 자동 인식합니다.</span>
+              <span class="font-semibold text-gray-500">이 콘텐츠는 실제 앱 환경과는 상이할 수 있습니다.</span>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features" class="py-20 sm:py-28 px-4 sm:px-6 bg-gradient-to-b from-cream via-white to-cream">
+  <!-- INTERACTIVE LAB 2: BENTO GRID FEATURES (SOLO & COUPLE + RANDOM SLOT + TIME ATTACK) -->
+  <section id="features" class="py-20 sm:py-28 px-4 sm:px-6 bg-gradient-to-b from-white via-rose-50/35 to-cream relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14 reveal">
+        <div class="inline-flex items-center gap-2 bg-purple-100/80 border border-purple-200 rounded-full px-4 py-1.5 mb-4">
+          <span class="text-xs font-extrabold text-vividPurple">ALL-IN-ONE CAMERA PLAY ✨</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-5xl mb-4">
+          솔로 1인도, 커플 2인도 <span class="posepik-gradient-text">세 가지 모드로 즐겨요</span>
+        </h2>
+        <p class="text-dark/60 text-sm sm:text-base max-w-2xl mx-auto">
+          새로 업데이트된 <strong class="text-vividPurple">솔로 1인 모드(7가지 포즈)</strong>와 <strong class="text-candy">커플 2인 모드(9가지 포즈)</strong> 모두<br class="hidden sm:block">
+          일반 포즈 가이드, 랜덤 뽑기, 타임어택 챌린지를 똑같이 즐길 수 있어요!
+        </p>
+        <div class="mt-3">
+          <span class="disclaimer-pill">ℹ️ 카드 내 미니 게임 콘텐츠는 실제 앱 환경과는 상이할 수 있습니다.</span>
+        </div>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Bento 1: Solo (7) + Couple (9) Pose Guide Mode (12 cols) -->
+        <div class="lg:col-span-12 glass-card tilt-card rounded-[2rem] p-6 sm:p-9 border border-rose-100 reveal">
+          <div class="tilt-glare"></div>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
+            <div class="md:col-span-7">
+              <div class="flex flex-wrap items-center gap-2 mb-4">
+                <span class="bg-candy/10 text-candy text-xs font-extrabold px-3 py-1 rounded-full">💑 커플 9종</span>
+                <span class="bg-vividPurple/10 text-vividPurple text-xs font-extrabold px-3 py-1 rounded-full">🍡 NEW 솔로 7종</span>
+                <span class="bg-green-500/10 text-green-600 text-xs font-extrabold px-3 py-1 rounded-full">총 16가지 포즈</span>
+              </div>
+              <h3 class="font-display text-2xl sm:text-4xl mb-3">
+                1인 솔로 & 2인 커플 <span class="posepik-gradient-text">AI 포즈 가이드 촬영</span>
+              </h3>
+              <p class="text-dark/60 text-sm sm:text-base leading-relaxed mb-4">
+                둘이서 찍을 땐 <strong>"우리가 하트 그자체"</strong>, <strong>"서로의 얼굴을 감싸는 우리"</strong> 등 9가지 커플 포즈로! 혼자 셀카 촬영을 할 땐 새로 추가된 <strong>"말랑콩떡"</strong>, <strong>"예쁨 로딩 완료"</strong> 등 7가지 1인 포즈로! 매칭도가 85%를 넘으면 5초 후 자동 촬영됩니다.
+              </p>
+
+              <!-- All 16 Pose Chips Display -->
+              <div class="space-y-2.5 mb-5 bg-white/75 rounded-2xl p-4 border border-rose-100/80">
+                <div>
+                  <div class="text-[11px] font-extrabold text-candy mb-1.5">💑 커플 2인 모드 포즈 (9종)</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">우리가 하트 그자체</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">서로의 얼굴을 감싸는 우리</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">뒤에서 안아도 되는 사이</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">뭐 찍지 하다가 그냥 찍은 사진</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">손잡고 너만 보는 나</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">영화 포스터 각</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">이 거리도 충분하지 않아</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">자연스럽게 기대는 법</span>
+                    <span class="text-[11px] font-bold bg-rose-50 text-candy px-2.5 py-1 rounded-lg border border-rose-200/60">핫도그</span>
+                  </div>
+                </div>
+                <div class="pt-2 border-t border-gray-100">
+                  <div class="text-[11px] font-extrabold text-vividPurple mb-1.5">🍡 솔로 1인 모드 포즈 (7종 · NEW)</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[11px] font-bold bg-purple-50 text-vividPurple px-2.5 py-1 rounded-lg border border-purple-200/60">예쁨 로딩 완료</span>
+                    <span class="text-[11px] font-bold bg-purple-50 text-vividPurple px-2.5 py-1 rounded-lg border border-purple-200/60">심쿵 와이파이</span>
+                    <span class="text-[11px] font-bold bg-purple-50 text-vividPurple px-2.5 py-1 rounded-lg border border-purple-200/60">말랑콩떡</span>
+                    <span class="text-[11px] font-bold bg-purple-50 text-vividPurple px-2.5 py-1 rounded-lg border border-purple-200/60">볼에 하트 ON</span>
+                    <span class="text-[11px] font-bold bg-purple-50 text-vividPurple px-2.5 py-1 rounded-lg border border-purple-200/60">하트 플렉스</span>
+                    <span class="text-[11px] font-bold bg-purple-50 text-vividPurple px-2.5 py-1 rounded-lg border border-purple-200/60">심장아, 나대지마</span>
+                    <span class="text-[11px] font-bold bg-purple-50 text-vividPurple px-2.5 py-1 rounded-lg border border-purple-200/60">귀여움 과다발사</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs font-bold bg-white border border-gray-200 px-3.5 py-1.5 rounded-xl shadow-sm">🔊 실시간 음성 코칭(TTS)</span>
+                <span class="text-xs font-bold bg-white border border-gray-200 px-3.5 py-1.5 rounded-xl shadow-sm">🎯 부위별 정확도 % 표시</span>
+                <span class="text-xs font-bold bg-white border border-gray-200 px-3.5 py-1.5 rounded-xl shadow-sm">📸 85% 달성 자동 셔터</span>
+              </div>
+            </div>
+
+            <!-- Interactive Pose Cards Preview -->
+            <div class="md:col-span-5 grid grid-cols-2 gap-3">
+              <div onclick="switchSimMode('couple'); document.getElementById('simulator').scrollIntoView({behavior:'smooth'})"
+                   class="cursor-pointer bg-white rounded-2xl p-4 border-2 border-rose-100 hover:border-candy transition-all text-center shadow-sm group">
+                <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100/80 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">🤝</div>
+                <div class="text-[11px] font-extrabold text-candy mb-0.5">커플 모드 (9종)</div>
+                <div class="font-bold text-sm text-dark">손 놓으면 지는 거</div>
+                <div class="text-[11px] text-dark/45 mt-1">손잡기50%·손위치20%·마주보기30%</div>
+              </div>
+              <div onclick="switchSimMode('solo'); document.getElementById('simulator').scrollIntoView({behavior:'smooth'})"
+                   class="cursor-pointer bg-white rounded-2xl p-4 border-2 border-purple-100 hover:border-vividPurple transition-all text-center shadow-sm group relative">
+                <span class="absolute top-2.5 right-2.5 bg-vividPurple text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">NEW</span>
+                <div class="w-16 h-16 mx-auto rounded-full bg-purple-100/80 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">🍡</div>
+                <div class="text-[11px] font-extrabold text-vividPurple mb-0.5">솔로 1인 모드 (7종)</div>
+                <div class="font-bold text-sm text-dark">말랑콩떡</div>
+                <div class="text-[11px] text-dark/45 mt-1">양볼콕50%·균형25%·팔꿈치25%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento 2: Interactive Random Pose Slot Machine (6 cols) -->
+        <div class="lg:col-span-6 glass-card tilt-card rounded-[2rem] p-6 sm:p-8 border border-purple-100 reveal flex flex-col justify-between">
+          <div class="tilt-glare"></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+              <span class="bg-purple-100 text-vividPurple text-xs font-extrabold px-3 py-1 rounded-full">🎲 1인 · 2인 모두 사용 가능</span>
+              <!-- Mini Mode Toggle for Roulette -->
+              <div class="inline-flex bg-gray-100 rounded-full p-1 text-xs font-bold">
+                <button id="roulette-mode-couple" onclick="setRoulettePool('couple')" class="px-3 py-1 rounded-full bg-white text-candy shadow-sm transition-all">커플 9종</button>
+                <button id="roulette-mode-solo" onclick="setRoulettePool('solo')" class="px-3 py-1 rounded-full text-dark/50 hover:text-dark transition-all">솔로 7종</button>
+              </div>
+            </div>
+
+            <h3 class="font-display text-2xl sm:text-3xl mb-2">랜덤 포즈 뽑기 챌린지</h3>
+            <p class="text-dark/55 text-sm leading-relaxed mb-5">
+              무슨 포즈를 할지 고민될 때! 솔로 모드와 커플 모드 모두 <strong>랜덤 뽑기</strong> 버튼 하나로 깜짝 포즈가 정해져요. 지금 아래 버튼을 직접 눌러 오늘의 포즈를 뽑아보세요!
+            </p>
+
+            <!-- Interactive Slot Machine Box -->
+            <div class="bg-gradient-to-br from-purple-50 via-white to-rose-50 rounded-2xl p-5 border border-purple-200/70 text-center mb-5 shadow-inner">
+              <div id="slot-emoji" class="text-4xl mb-2 transition-transform duration-200">🎰</div>
+              <div id="slot-badge" class="text-[11px] font-extrabold text-vividPurple uppercase tracking-wider">READY TO SPIN</div>
+              <div id="slot-title" class="font-display text-xl sm:text-2xl text-dark mt-1">버튼을 눌러 랜덤 포즈를 뽑아보세요!</div>
+              <div id="slot-desc" class="text-xs text-dark/55 mt-1">커플 9가지 & 솔로 7가지 포즈 중 랜덤 당첨</div>
+            </div>
+          </div>
+
+          <div class="relative z-10 text-center">
+            <!-- App Original Style Random Button -->
+            <div class="app-pill-shell w-full sm:w-auto">
+              <button onclick="spinRandomPose()" class="btn-app-random text-white font-extrabold text-base px-10 py-3.5 rounded-full w-full sm:w-auto flex items-center justify-center gap-2">
+                <span>🎲 랜덤 뽑기 실행!</span>
+              </button>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-2.5">* 이 콘텐츠는 실제 앱 환경과는 상이할 수 있습니다.</div>
+          </div>
+        </div>
+
+        <!-- Bento 3: Interactive Time Attack Challenge (6 cols) -->
+        <div class="lg:col-span-6 glass-card tilt-card rounded-[2rem] p-6 sm:p-8 border border-orange-100 reveal flex flex-col justify-between">
+          <div class="tilt-glare"></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+              <span class="bg-orange-100 text-sunsetOrange text-xs font-extrabold px-3 py-1 rounded-full">⏱️ 1인 · 2인 모두 사용 가능</span>
+              <div class="inline-flex bg-gray-100 rounded-full p-1 text-xs font-bold">
+                <button onclick="setTimeAttackMin(3, this)" class="ta-btn px-3 py-1 rounded-full bg-white text-sunsetOrange shadow-sm">3분</button>
+                <button onclick="setTimeAttackMin(5, this)" class="ta-btn px-3 py-1 rounded-full text-dark/50">5분</button>
+                <button onclick="setTimeAttackMin(10, this)" class="ta-btn px-3 py-1 rounded-full text-dark/50">10분</button>
+              </div>
+            </div>
+
+            <h3 class="font-display text-2xl sm:text-3xl mb-2">타임어택 스피드 챌린지</h3>
+            <p class="text-dark/55 text-sm leading-relaxed mb-5">
+              제한 시간 안에 최대한 많은 포즈를 성공시켜보세요! 혼자서 빠르게 여러 장의 셀카를 건지고 싶을 때도, 연인과 스릴 넘치는 대결을 할 때도 모두 사용 가능해요.
+            </p>
+
+            <!-- Interactive Time Attack Display -->
+            <div class="bg-gradient-to-br from-orange-50 via-white to-amber-50 rounded-2xl p-5 border border-orange-200/70 flex items-center justify-around mb-5 shadow-inner">
+              <div class="text-center">
+                <div class="text-[11px] font-bold text-dark/45">남은 제한 시간</div>
+                <div id="ta-timer-display" class="font-display text-3xl sm:text-4xl text-sunsetOrange tracking-wider mt-0.5">03:00.0</div>
+              </div>
+              <div class="w-px h-12 bg-orange-200"></div>
+              <div class="text-center">
+                <div class="text-[11px] font-bold text-dark/45">성공한 포즈 갯수</div>
+                <div class="font-display text-3xl sm:text-4xl text-dark mt-0.5"><span id="ta-combo-count">0</span> <span class="text-sm font-bold text-sunsetOrange">성공</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative z-10 text-center">
+            <!-- App Original Style Time Attack Button -->
+            <div class="app-pill-shell w-full sm:w-auto">
+              <button id="ta-action-btn" onclick="toggleTimeAttackDemo()" class="btn-app-timeattack text-white font-extrabold text-base px-10 py-3.5 rounded-full w-full sm:w-auto flex items-center justify-center gap-2">
+                <span>⏱️ 타임어택 챌린지 체험!</span>
+              </button>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-2.5">* 이 콘텐츠는 실제 앱 환경과는 상이할 수 있습니다.</div>
+          </div>
+        </div>
+
+        <!-- Bottom 3 Mini Bento Cards (Album, Record, Badges - Matching App Bottom Bar) -->
+        <div class="lg:col-span-4 glass-card tilt-card rounded-3xl p-6 border border-rose-100/80 reveal flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-rose-100/70 flex items-center justify-center text-2xl shrink-0">🖼️</div>
+          <div>
+            <h4 class="font-extrabold text-base text-dark">전용 사진첩</h4>
+            <p class="text-xs text-dark/55 mt-1 leading-relaxed">솔로 & 커플 모드로 자동 촬영된 고화질 인생샷을 한눈에 모아보고 저장해요.</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 glass-card tilt-card rounded-3xl p-6 border border-purple-100/80 reveal flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-purple-100/70 flex items-center justify-center text-2xl shrink-0">📋</div>
+          <div>
+            <h4 class="font-extrabold text-base text-dark">촬영 기록 & 통계</h4>
+            <p class="text-xs text-dark/55 mt-1 leading-relaxed">달성한 포즈 완료율(33% · 3/9 완료 등)과 매칭 점수, 타임어택 기록을 관리해요.</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 glass-card tilt-card rounded-3xl p-6 border border-orange-100/80 reveal flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-orange-100/70 flex items-center justify-center text-2xl shrink-0">🏅</div>
+          <div>
+            <h4 class="font-extrabold text-base text-dark">특별 배지 수집</h4>
+            <p class="text-xs text-dark/55 mt-1 leading-relaxed">포즈를 성공할 때마다 '하트 장인', '손잡기 장인' 등 특별한 배지와 획득 날짜가 기록돼요!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE LAB 3: 3D APP SCREENSHOT SHOWCASE (USING ACTUAL 3 PNG FILES IN images/screens/) -->
+  <section id="screens" class="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
     <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-16 reveal"><div class="inline-block bg-rose-50 rounded-full px-5 py-2 mb-4 border border-rose-100"><span class="text-sm font-bold text-candy">핵심 기능 ✨</span></div><h2 class="font-display text-3xl sm:text-4xl md:text-5xl"><span class="text-candy">세 가지 모드</span>로 즐겨요</h2></div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-        <div class="feature-card reveal bg-white rounded-3xl p-8 shadow-sm border border-rose-50 relative overflow-hidden group">
-          <div class="absolute -top-10 -right-10 w-40 h-40 bg-candy/5 rounded-full group-hover:scale-[2] transition-transform duration-700"></div>
-          <div class="relative z-10"><div class="w-16 h-16 bg-gradient-to-br from-candy/20 to-rose-100 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm">💑</div><h3 class="font-bold text-xl mb-2">커플 포즈 촬영</h3><p class="text-dark/50 leading-relaxed text-[15px] mb-5">9가지 커플 포즈 중 원하는 걸 선택하면 화면에 가이드가 나타나요. AI가 두 사람의 포즈를 실시간 인식해서 매칭도가 85%를 넘으면 자동으로 촬영해줘요.</p>
-            <div class="flex flex-wrap gap-2"><span class="bg-candy/10 text-candy text-xs font-bold px-3 py-1 rounded-full border border-candy/10">2인 전용</span><span class="bg-candy/10 text-candy text-xs font-bold px-3 py-1 rounded-full border border-candy/10">자동촬영</span><span class="bg-candy/10 text-candy text-xs font-bold px-3 py-1 rounded-full border border-candy/10">9가지 포즈</span></div></div>
+      <div class="text-center mb-12 reveal">
+        <div class="inline-flex items-center gap-2 bg-rose-100/80 border border-rose-200 rounded-full px-4 py-1.5 mb-4">
+          <span class="text-xs font-extrabold text-candy">REAL APP PREVIEW 👀</span>
         </div>
-        <div class="feature-card reveal bg-white rounded-3xl p-8 shadow-sm border border-orange-50 relative overflow-hidden group">
-          <div class="absolute -top-10 -right-10 w-40 h-40 bg-orange-50 rounded-full group-hover:scale-[2] transition-transform duration-700"></div>
-          <div class="relative z-10"><div class="w-16 h-16 bg-gradient-to-br from-orange-200/60 to-peach/30 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm">🎰</div><h3 class="font-bold text-xl mb-2">랜덤 포즈 챌린지</h3><p class="text-dark/50 leading-relaxed text-[15px] mb-5">어떤 포즈를 할지 고민될 때! 랜덤 뽑기 버튼 하나로 깜짝 포즈가 정해져요. 룰렛 애니메이션과 함께 나온 포즈를 따라하면 새로운 재미를 발견할 수 있어요.</p>
-            <div class="flex flex-wrap gap-2"><span class="bg-orange-50 text-orange-500 text-xs font-bold px-3 py-1 rounded-full border border-orange-100">랜덤뽑기</span><span class="bg-orange-50 text-orange-500 text-xs font-bold px-3 py-1 rounded-full border border-orange-100">깜짝 재미</span></div></div>
-        </div>
-        <div class="feature-card reveal bg-white rounded-3xl p-8 shadow-sm border border-purple-50 relative overflow-hidden group">
-          <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-50 rounded-full group-hover:scale-[2] transition-transform duration-700"></div>
-          <div class="relative z-10"><div class="w-16 h-16 bg-gradient-to-br from-purple-200/60 to-purple-100/30 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm">⏱️</div><h3 class="font-bold text-xl mb-2">타임어택 챌린지</h3><p class="text-dark/50 leading-relaxed text-[15px] mb-5">제한 시간 안에 최대한 많은 포즈를 성공시켜보세요! 3분, 5분, 10분 중 선택하고 두 사람이 함께 도전하는 스릴 있는 촬영 놀이를 즐겨요.</p>
-            <div class="flex flex-wrap gap-2"><span class="bg-purple-50 text-purple-500 text-xs font-bold px-3 py-1 rounded-full border border-purple-100">시간제한</span><span class="bg-purple-50 text-purple-500 text-xs font-bold px-3 py-1 rounded-full border border-purple-100">도전모드</span></div></div>
+        <h2 class="font-display text-3xl sm:text-5xl mb-4">
+          한눈에 보는 <span class="posepik-gradient-text">실제 앱 화면</span>
+        </h2>
+        <p class="text-dark/60 text-sm sm:text-base">
+          화면을 클릭하면 확대되며 각 화면의 핵심 디자인 포인트를 확인할 수 있어요!
+        </p>
+
+        <!-- Screen Selector Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
+          <button onclick="selectShowcase(0)" id="sc-tab-0" class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-dark text-white shadow-md">
+            1. 메인 홈 화면
+          </button>
+          <button onclick="selectShowcase(1)" id="sc-tab-1" class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-white text-dark/60 hover:text-dark border border-gray-200">
+            2. 포즈 가이드 & 평가 기준
+          </button>
+          <button onclick="selectShowcase(2)" id="sc-tab-2" class="px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-white text-dark/60 hover:text-dark border border-gray-200">
+            3. 배지 모음 컬렉션
+          </button>
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-        <div class="reveal bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-rose-50 text-center"><div class="text-2xl mb-2">🖼️</div><div class="font-bold text-sm mb-1">사진첩</div><div class="text-xs text-dark/40">촬영한 사진을 모아보고 추억을 간직하세요</div></div>
-        <div class="reveal bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-rose-50 text-center"><div class="text-2xl mb-2">🏅</div><div class="font-bold text-sm mb-1">배지 모음</div><div class="text-xs text-dark/40">포즈를 성공할 때마다 특별한 배지를 획득해요</div></div>
-        <div class="reveal bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-rose-50 text-center"><div class="text-2xl mb-2">📊</div><div class="font-bold text-sm mb-1">기록 확인</div><div class="text-xs text-dark/40">촬영 기록과 포즈 분석 통계를 한눈에 봐요</div></div>
+
+      <!-- 3 Phones Interactive Coverflow -->
+      <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-6 lg:gap-12 reveal">
+        
+        <!-- Screen 0: images/screens/main.png -->
+        <div id="sc-item-0" onclick="selectShowcase(0)" class="showcase-item active flex flex-col items-center">
+          <div class="iphone-mockup">
+            <img src="images/screens/main.png" alt="PosePik 메인 화면" class="iphone-screen">
+          </div>
+          <div class="mt-4 text-center">
+            <span class="text-xs font-extrabold text-candy bg-rose-50 px-3 py-1 rounded-full border border-rose-200">메인 화면</span>
+            <p class="text-xs text-dark/55 mt-1.5 font-medium">33% (3/9 완료) 진행률 · 완료 체크(✓) · 랜덤/타임어택</p>
+          </div>
+        </div>
+
+        <!-- Screen 1: images/screens/guide.png -->
+        <div id="sc-item-1" onclick="selectShowcase(1)" class="showcase-item inactive flex flex-col items-center">
+          <div class="iphone-mockup">
+            <img src="images/screens/guide.png" alt="PosePik 포즈 가이드 평가 기준 화면" class="iphone-screen">
+          </div>
+          <div class="mt-4 text-center">
+            <span class="text-xs font-extrabold text-vividPurple bg-purple-50 px-3 py-1 rounded-full border border-purple-200">포즈 가이드 화면</span>
+            <p class="text-xs text-dark/55 mt-1.5 font-medium">'손 놓으면 지는 거' (손잡기 50% · 손 위치 20% · 마주보기 30%)</p>
+          </div>
+        </div>
+
+        <!-- Screen 2: images/screens/badges.png -->
+        <div id="sc-item-2" onclick="selectShowcase(2)" class="showcase-item inactive flex flex-col items-center">
+          <div class="iphone-mockup">
+            <img src="images/screens/badges.png" alt="PosePik 배지 모음 화면" class="iphone-screen">
+          </div>
+          <div class="mt-4 text-center">
+            <span class="text-xs font-extrabold text-sunsetOrange bg-orange-50 px-3 py-1 rounded-full border border-orange-200">배지 모음 화면</span>
+            <p class="text-xs text-dark/55 mt-1.5 font-medium">1/10 획득 게이지 · '하트 장인' 달성일 기록 & 10종 배지</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Dynamic Highlight Description Banner below Phones -->
+      <div id="sc-caption-box" class="mt-10 max-w-2xl mx-auto glass-card rounded-2xl p-5 text-center border border-rose-200/60 transition-all">
+        <div id="sc-caption-title" class="font-extrabold text-base text-candy mb-1">✨ 1. 메인 홈 화면</div>
+        <p id="sc-caption-desc" class="text-xs sm:text-sm text-dark/65">
+          상단 촬영 버튼과 실시간 포즈 완료율 원형 게이지(33% · 3/9 완료), '뒤에서 안아도 되는 사이' 선택 포커스 및 완료 체크(✓) 표시가 된 포즈 카드, 그리고 하단의 '랜덤 뽑기 · 타임어택 · 사진첩 · 기록 · 배지' 버튼을 한눈에 조작할 수 있어요.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="how" class="py-20 sm:py-28 px-4 sm:px-6">
-    <div class="max-w-3xl mx-auto">
-      <div class="text-center mb-16 reveal"><div class="inline-block bg-rose-50 rounded-full px-5 py-2 mb-4 border border-rose-100"><span class="text-sm font-bold text-candy">사용법 🚀</span></div><h2 class="font-display text-3xl sm:text-4xl md:text-5xl"><span class="text-candy">3단계</span>로 초간단</h2></div>
-      <div class="space-y-8">
-        <div class="reveal step-line flex items-start gap-5 sm:gap-6">
-          <div class="shrink-0 w-14 h-14 bg-gradient-to-br from-candy to-rose-400 rounded-2xl flex items-center justify-center font-display text-white text-xl shadow-md">1</div>
-          <div class="pt-1"><h3 class="font-bold text-lg sm:text-xl mb-1.5">커플이 함께 카메라 앞에 서요</h3><p class="text-dark/50 text-sm sm:text-base leading-relaxed">PosePik 앱을 열고 9가지 커플 포즈 중 하나를 선택하거나, 랜덤 뽑기로 깜짝 포즈를 정해요.</p></div>
-        </div>
-        <div class="reveal step-line flex items-start gap-5 sm:gap-6">
-          <div class="shrink-0 w-14 h-14 bg-gradient-to-br from-candy to-rose-400 rounded-2xl flex items-center justify-center font-display text-white text-xl shadow-md">2</div>
-          <div class="pt-1"><h3 class="font-bold text-lg sm:text-xl mb-1.5">가이드를 보면서 포즈를 따라해요</h3><p class="text-dark/50 text-sm sm:text-base leading-relaxed">화면 속 가이드라인에 맞춰 둘이 함께 포즈를 취하면, AI가 실시간으로 매칭도를 보여줘요. 음성 가이드(TTS)도 함께 나와요!</p></div>
-        </div>
-        <div class="reveal step-line flex items-start gap-5 sm:gap-6">
-          <div class="shrink-0 w-14 h-14 bg-gradient-to-br from-candy to-rose-400 rounded-2xl flex items-center justify-center font-display text-white text-xl shadow-md">3</div>
-          <div class="pt-1"><h3 class="font-bold text-lg sm:text-xl mb-1.5">85% 달성하면 자동 촬영! 📸</h3><p class="text-dark/50 text-sm sm:text-base leading-relaxed">매칭도가 85%를 넘는 순간 5초 카운트다운이 시작되고, 자동으로 사진이 촬영돼요. 성공하면 배지도 획득!</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- INTERACTIVE LAB 4: BADGE COLLECTION WALL & DUAL USER SCENARIOS -->
+  <section id="badges" class="py-20 sm:py-28 px-4 sm:px-6 bg-charcoal text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-candy/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-vividPurple/15 rounded-full blur-3xl pointer-events-none"></div>
 
-  <!-- SCREENSHOTS -->
-  <section id="screens" class="py-20 sm:py-28 px-4 sm:px-6 bg-gradient-to-b from-white via-rose-50/30 to-cream relative overflow-hidden">
-    <div class="blob w-96 h-96 bg-rose-200 top-0 -right-20"></div><div class="blob w-72 h-72 bg-peach/20 bottom-0 -left-10"></div>
     <div class="max-w-6xl mx-auto relative z-10">
-      <div class="text-center mb-16 reveal"><div class="inline-block bg-rose-50 rounded-full px-5 py-2 mb-4 border border-rose-100"><span class="text-sm font-bold text-candy">미리보기 👀</span></div><h2 class="font-display text-3xl sm:text-4xl md:text-5xl">실제 앱 <span class="text-candy">화면이에요</span></h2><p class="text-dark/40 mt-4 text-base sm:text-lg">PosePik의 주요 화면을 확인해보세요</p></div>
-      <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-10 lg:gap-14">
-        <div class="reveal animate-float">
-          <div class="phone-frame"><div class="screen">
-            <picture>
-                <img src="images/screens/main.png" alt="PosePik 메인 화면" class="screen-img" loading="lazy">
-              </picture>
-            </div></div>
-          <p class="text-center mt-4 font-bold text-candy text-sm">메인 화면</p>
+      
+      <!-- Part A: Interactive Badge Unlock Wall -->
+      <div class="text-center mb-12 reveal">
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 mb-4">
+          <span class="text-xs font-extrabold text-rose-300">COLLECTIBLE BADGES 💪</span>
         </div>
-        <div class="reveal md:-mt-6">
-          <div class="phone-frame md:!w-[260px] md:!h-[530px] animate-float-delay"><div class="screen">
-            <picture>
-              <img src="images/screens/guide.png" alt="포즈 가이드 화면" class="screen-img" loading="lazy">
-            </picture>
-          </div></div>
-          <p class="text-center mt-4 font-bold text-candy text-sm">포즈 가이드 화면</p>
+        <h2 class="font-display text-3xl sm:text-5xl mb-3">
+          좋은 시작이에요! <span class="text-rose-300">배지를 모아보세요!</span>
+        </h2>
+        <p class="text-white/60 text-sm sm:text-base mb-4">
+          아래 잠겨 있는 배지 카드를 <strong class="text-white">클릭</strong>해서 잠금을 해제해보세요! (<span id="unlocked-badge-counter" class="text-rose-300 font-extrabold">1</span>/10 획득 체험 중)
+        </p>
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs text-white/50 bg-white/5 border border-white/10 px-3.5 py-1 rounded-full">
+            ℹ️ 이 콘텐츠는 실제 앱 환경과는 상이할 수 있습니다.
+          </span>
         </div>
-        <div class="reveal animate-float-delay2">
-          <div class="phone-frame"><div class="screen">
-            <picture>
-              <img src="images/screens/badges.png" alt="배지 모음 화면" class="screen-img" loading="lazy">
-            </picture>
-          </div></div>
-          <p class="text-center mt-4 font-bold text-purple-500 text-sm">배지 모음 화면</p>
+      </div>
+
+      <!-- 10 Badges Grid (Matching images/screens/badges.png) -->
+      <div id="badge-wall-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3.5 sm:gap-4 mb-20 reveal">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Part B: Dual User Scenario (Couple Date vs Solo Life-shot) -->
+      <div class="text-center mb-10 reveal">
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 mb-4">
+          <span class="text-xs font-extrabold text-purple-300">REAL USE CASES 💭</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl mb-6">
+          이럴 때 <span class="posepik-gradient-text">포즈픽(PosePik)</span>을 켜세요!
+        </h2>
+
+        <!-- Scenario Switcher Tabs -->
+        <div class="inline-flex bg-white/10 p-1.5 rounded-full border border-white/15">
+          <button id="scen-btn-couple" onclick="switchScenario('couple')"
+                  class="px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-gradient-to-r from-candy to-vividPurple text-white shadow-md">
+            💑 커플 데이트 편 (2인 모드)
+          </button>
+          <button id="scen-btn-solo" onclick="switchScenario('solo')"
+                  class="px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all text-white/65 hover:text-white">
+            🍡 나홀로 인생샷 편 (NEW 솔로 1인 모드)
+          </button>
+        </div>
+      </div>
+
+      <!-- Scenario Content Box -->
+      <div class="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-10 border border-white/10 max-w-4xl mx-auto reveal">
+        <!-- Couple Story -->
+        <div id="scenario-couple" class="space-y-6">
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-candy/20 rounded-2xl flex items-center justify-center text-xl">💑</div>
+            <div>
+              <div class="text-rose-300 text-xs font-bold mb-1">STEP 1 · 어색한 공원 데이트</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">연애를 막 시작한 <strong class="text-white">철수</strong>와 <strong class="text-white">지은</strong>이는 공원 데이트 중 사진을 남기려 하지만, 매번 똑같은 브이(V) 포즈가 지루하고 카메라 앞에만 서면 어색해져요.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-purple-400/20 rounded-2xl flex items-center justify-center text-xl">🎲</div>
+            <div>
+              <div class="text-purple-300 text-xs font-bold mb-1">STEP 2 · 커플 랜덤 뽑기 실행!</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">철수가 PosePik 커플 모드를 켜고 <strong class="text-purple-300">랜덤 뽑기</strong>를 누르자, 9가지 커플 포즈 중 <strong class="text-white">"우리가 하트 그자체"</strong> 포즈가 당첨!</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-sky-400/20 rounded-2xl flex items-center justify-center text-xl">🔊</div>
+            <div>
+              <div class="text-sky-300 text-xs font-bold mb-1">STEP 3 · AI 실시간 음성 코칭</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">머리 위로 팔을 올려 하트를 만드는데, <strong class="text-sky-300">음성 가이드(TTS)</strong>가 왼손 높이(30%), 오른손 높이(30%), 손끝 모으기(25%)를 실시간으로 체크하며 자연스럽게 둘의 거리를 좁혀줘요!</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-green-400/20 rounded-2xl flex items-center justify-center text-xl">🎉</div>
+            <div>
+              <div class="text-green-300 text-xs font-bold mb-1">STEP 4 · 85% 매칭 자동 촬영 & 뱃지 획득!</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">매칭도가 <strong class="text-green-300">85%</strong>를 넘자 5초 카운트다운 후 자동으로 찰칵! 축하 효과와 함께 <strong class="text-yellow-300">'하트 장인 💕' 뱃지</strong>까지 획득하며 웃음꽃이 피어납니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solo Story (NEW) -->
+        <div id="scenario-solo" class="space-y-6 hidden">
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-purple-400/20 rounded-2xl flex items-center justify-center text-xl">🍡</div>
+            <div>
+              <div class="text-purple-300 text-xs font-bold mb-1">STEP 1 · 혼자 카페 & 여행지 셀카 촬영의 고민</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">예쁜 카페에 혼자 방문한 <strong class="text-white">지은</strong>이! 기념용 셀카사진을 찍고 싶지만 어떤 포즈를 취해야 귀여울지 모르겠고, 타이머를 맞춰두고 매번 자리로 뛰어가는 것도 너무 불편해요.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-candy/20 rounded-2xl flex items-center justify-center text-xl">✨</div>
+            <div>
+              <div class="text-rose-300 text-xs font-bold mb-1">STEP 2 · NEW 솔로 1인 모드 "말랑콩떡" 선택!</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">새로 업데이트된 <strong class="text-rose-300">솔로 1인 모드(7가지 포즈)</strong>에서 <strong class="text-white">"말랑콩떡"</strong> 포즈를 선택해요!</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-sky-400/20 rounded-2xl flex items-center justify-center text-xl">🤖</div>
+            <div>
+              <div class="text-sky-300 text-xs font-bold mb-1">STEP 3 · 볼콕 & 팔꿈치 각도까지 정밀 가이드</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">AI가 <strong class="text-white">왼쪽 볼콕(25%) + 오른쪽 볼콕(25%) + 양손 볼 높이 균형(25%) + 팔꿈치 모아 내리기(25%)</strong>를 실시간으로 분석해 완벽한 구도를 잡아줘요.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="shrink-0 w-11 h-11 bg-green-400/20 rounded-2xl flex items-center justify-center text-xl">📸</div>
+            <div>
+              <div class="text-green-300 text-xs font-bold mb-1">STEP 4 · 타이머 달리기 없이 85% 자동 찰칵!</div>
+              <p class="text-white/85 text-sm sm:text-base leading-relaxed">포즈 매칭도가 <strong class="text-green-300">85%</strong>를 넘자 앉은 자리 그대로 5초 뒤 자동 촬영 완료! 혼자서도 어색함 없이 귀여운 기념용 셀카사진을 건졌어요.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TECH SPEC SECTION -->
+  <section class="py-20 sm:py-24 px-4 sm:px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-12 reveal">
+        <div class="inline-flex items-center gap-2 bg-rose-50 border border-rose-100 rounded-full px-4 py-1.5 mb-3">
+          <span class="text-xs font-extrabold text-candy">ON-DEVICE AI TECH ⚙️</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl">
+          <span class="posepik-gradient-text">온디바이스 AI</span>로 빠르고 안전해요
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal">
+        <div class="glass-card rounded-3xl p-6 border border-rose-100/80 text-center">
+          <div class="w-12 h-12 mx-auto rounded-2xl bg-candy/10 flex items-center justify-center text-2xl mb-3">🧠</div>
+          <div class="font-extrabold text-base mb-1">Apple Vision AI</div>
+          <p class="text-xs text-dark/55 leading-relaxed">Apple Vision Framework 기반으로 1인 및 2인 관절 포인트를 실시간 정밀 인식해요.</p>
+        </div>
+        <div class="glass-card rounded-3xl p-6 border border-purple-100/80 text-center">
+          <div class="w-12 h-12 mx-auto rounded-2xl bg-vividPurple/10 flex items-center justify-center text-2xl mb-3">⚡</div>
+          <div class="font-extrabold text-base mb-1">30 FPS · 17ms 초저지연</div>
+          <p class="text-xs text-dark/55 leading-relaxed">초당 30프레임, 평균 17.0ms의 빠른 응답 속도로 끊김 없는 매칭률을 보여줘요.</p>
+        </div>
+        <div class="glass-card rounded-3xl p-6 border border-orange-100/80 text-center">
+          <div class="w-12 h-12 mx-auto rounded-2xl bg-sunsetOrange/10 flex items-center justify-center text-2xl mb-3">🔒</div>
+          <div class="font-extrabold text-base mb-1">100% 개인정보 보호</div>
+          <p class="text-xs text-dark/55 leading-relaxed">외부 서버 전송 없이 모든 AI 연산과 사진 저장이 내 아이폰 안에서만 안전하게 처리돼요.</p>
+        </div>
+        <div class="glass-card rounded-3xl p-6 border border-emerald-100/80 text-center">
+          <div class="w-12 h-12 mx-auto rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl mb-3">📱</div>
+          <div class="font-extrabold text-base mb-1">지원 기기 안내</div>
+          <p class="text-xs text-dark/55 leading-relaxed">iOS 18.0 이상 · iPhone XR/XS 이상 지원 (A12 Bionic 이상, iPhone 13 이상 권장)</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- USER SCENARIO -->
-  <section class="py-20 sm:py-28 px-4 sm:px-6 bg-charcoal text-white relative overflow-hidden">
-    <div class="blob w-80 h-80 bg-candy/20 top-10 -right-20"></div>
-    <div class="max-w-4xl mx-auto relative z-10">
-      <div class="text-center mb-14 reveal"><div class="inline-block bg-white/10 backdrop-blur-sm rounded-full px-5 py-2 mb-4 border border-white/10"><span class="text-sm font-bold text-rose-300">이런 상황에 딱! 💭</span></div><h2 class="font-display text-3xl sm:text-4xl md:text-5xl">커플 데이트 중에<br><span class="text-rose-300">이렇게 쓰세요</span></h2></div>
-      <div class="reveal bg-white/5 backdrop-blur-sm rounded-3xl p-6 sm:p-10 border border-white/10">
-        <div class="space-y-8">
-          <div class="flex gap-4 items-start"><div class="shrink-0 w-10 h-10 bg-candy/20 rounded-full flex items-center justify-center text-lg">💑</div><div><div class="text-white/40 text-xs mb-1">상황</div><p class="text-white/80 leading-relaxed text-sm sm:text-base">연애를 시작한 <strong class="text-white">철수</strong>와 <strong class="text-white">지은</strong>이는 공원 데이트 중 사진을 찍으려 하는데, 매번 똑같은 포즈가 지루하고 카메라 앞에 서면 어색해요.</p></div></div>
-          <div class="flex gap-4 items-start"><div class="shrink-0 w-10 h-10 bg-orange-400/20 rounded-full flex items-center justify-center text-lg">🎰</div><div><div class="text-white/40 text-xs mb-1">PosePik 실행!</div><p class="text-white/80 leading-relaxed text-sm sm:text-base">철수가 PosePik을 켜고 <strong class="text-orange-300">랜덤 뽑기</strong>를 누르자, 룰렛이 돌아가며 <strong class="text-white">"우리가 하트 그 자체"</strong> 포즈가 당첨!</p></div></div>
-          <div class="flex gap-4 items-start"><div class="shrink-0 w-10 h-10 bg-sky-400/20 rounded-full flex items-center justify-center text-lg">🤖</div><div><div class="text-white/40 text-xs mb-1">AI 가이드</div><p class="text-white/80 leading-relaxed text-sm sm:text-base">화면 속 가이드라인에 맞춰 포즈를 취하는데, 처음엔 잘 안 맞아서 <strong class="text-sky-300">음성 가이드(TTS)</strong>가 "조금 더 붙으세요~" 하고 알려줘요. 두 사람은 웃으며 몸을 밀착!</p></div></div>
-          <div class="flex gap-4 items-start"><div class="shrink-0 w-10 h-10 bg-green-400/20 rounded-full flex items-center justify-center text-lg">🎉</div><div><div class="text-white/40 text-xs mb-1">자동 촬영 성공!</div><p class="text-white/80 leading-relaxed text-sm sm:text-base">매칭도가 <strong class="text-green-300">85%</strong>를 넘자 자동으로 5초 카운트다운! 사진이 찍히고, 축하 효과와 함께 <strong class="text-yellow-300">'하트 장인' 배지</strong>가 획득됐다는 알림이 떠요. 즐거움과 친밀도 UP! 💕</p></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TECH SPEC -->
-  <section class="py-20 sm:py-28 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-14 reveal"><div class="inline-block bg-rose-50 rounded-full px-5 py-2 mb-4 border border-rose-100"><span class="text-sm font-bold text-candy">기술 스펙 ⚙️</span></div><h2 class="font-display text-3xl sm:text-4xl md:text-5xl"><span class="text-candy">온디바이스 AI</span>로 빠르고 안전해요</h2></div>
-      <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="bg-white rounded-2xl p-6 border border-rose-50 shadow-sm"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-candy/10 rounded-xl flex items-center justify-center text-xl">🧠</div><div class="font-bold">Apple Vision Framework</div></div><p class="text-dark/50 text-sm leading-relaxed">apple vision framework를 활용한 실시간 포즈 인식. 별도 서버 없이 온디바이스에서 처리돼요.</p></div>
-        <div class="bg-white rounded-2xl p-6 border border-rose-50 shadow-sm"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-candy/10 rounded-xl flex items-center justify-center text-xl">⚡</div><div class="font-bold">30 FPS · 17ms 지연</div></div><p class="text-dark/50 text-sm leading-relaxed">실시간 30프레임으로 부드러운 포즈 인식. 평균 17.0ms의 초저지연으로 즉각적인 피드백을 제공해요.</p></div>
-        <div class="bg-white rounded-2xl p-6 border border-rose-50 shadow-sm"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-candy/10 rounded-xl flex items-center justify-center text-xl">🔒</div><div class="font-bold">개인정보 보호</div></div><p class="text-dark/50 text-sm leading-relaxed">모든 AI 처리가 기기 내에서 이루어져 사진이나 영상 데이터가 외부로 전송되지 않아요.</p></div>
-        <div class="bg-white rounded-2xl p-6 border border-rose-50 shadow-sm"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-candy/10 rounded-xl flex items-center justify-center text-xl">📱</div><div class="font-bold">지원 기기</div></div><p class="text-dark/50 text-sm leading-relaxed">iOS 18.0 이상 · iPhone XR/XS 이상 지원 (A12 Bionic 칩셋 이상). iPhone 13 이상 권장.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DOWNLOAD CTA -->
+  <!-- DOWNLOAD CTA SECTION -->
   <section id="download" class="py-24 sm:py-32 px-4 sm:px-6 relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-candy via-rose-500 to-rose-600"></div>
-    <div class="blob w-96 h-96 bg-white/10 top-0 -left-20"></div><div class="blob w-80 h-80 bg-white/5 bottom-0 right-0"></div>
-    <div class="emoji-particle top-[8%] left-[8%] animate-float text-4xl opacity-20">💑</div><div class="emoji-particle top-[15%] right-[12%] animate-float-delay text-3xl opacity-20">📸</div><div class="emoji-particle bottom-[15%] left-[12%] animate-float-delay2 text-3xl opacity-20">❤️</div>
-    <div class="relative z-10 max-w-3xl mx-auto text-center">
-      <div class="reveal">
-        <div class="text-5xl mb-6 animate-heartbeat">💕</div>
-        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-white mb-6 leading-tight">지금 바로<br>포즈픽 PosePik 시작하기</h2>
-        <p class="text-white/75 text-lg sm:text-xl mb-4 max-w-lg mx-auto leading-relaxed">포즈 고민은 끝! AI가 커플 포즈를 가이드해주고<br class="hidden sm:block"> 자동으로 인생샷을 찍어줘요</p>
-        <p class="text-white/50 text-sm mb-10">완전 무료 · iOS 전용 · 9가지 커플 포즈</p>
-        <a href="https://apps.apple.com/kr/app/%ED%8F%AC%EC%A6%88%ED%94%BD/id6757504051" class="cta-btn inline-flex items-center gap-3 bg-white text-dark font-bold text-lg px-10 py-5 rounded-2xl shadow-2xl" target="_blank" rel="noopener noreferrer">
-          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          <div class="text-left"><div class="text-[11px] font-normal text-dark/50 leading-none">Download on the</div><div class="text-xl font-extrabold leading-tight">App Store</div></div>
-        </a>
+    <div class="absolute inset-0 bg-gradient-to-br from-candy via-vividPurple to-sunsetOrange"></div>
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto text-center text-white reveal">
+      <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-4 py-1.5 text-xs font-extrabold mb-6 border border-white/25">
+        <span>🎉 솔로 1인 모드(7종) & 커플 2인 모드(9종) 무료 업데이트 완료!</span>
       </div>
+      <h2 class="font-display text-4xl sm:text-6xl mb-6 leading-tight">
+        지금 바로 포즈픽으로<br>인생샷 챌린지 시작하세요!
+      </h2>
+      <p class="text-white/85 text-base sm:text-xl mb-8 max-w-xl mx-auto leading-relaxed">
+        혼자 찍을 때도, 연인과 함께 찍을 때도!<br>
+        16가지 포즈 가이드 · 랜덤 뽑기 · 타임어택을 무료로 즐겨보세요.
+      </p>
+
+      <a href="https://apps.apple.com/kr/app/%ED%8F%AC%EC%A6%88%ED%94%BD/id6757504051" target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center gap-3.5 bg-white text-dark hover:scale-105 active:scale-95 transition-all font-bold px-9 py-5 rounded-2xl shadow-2xl">
+        <svg class="w-8 h-8 text-dark" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <div class="text-left">
+          <div class="text-[11px] font-semibold text-dark/50 leading-none">Download on the</div>
+          <div class="text-xl font-black leading-tight">App Store</div>
+        </div>
+      </a>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="py-10 px-4 sm:px-6 bg-dark text-white/40">
+  <footer class="py-10 px-4 sm:px-6 bg-dark text-white/45 border-t border-white/10">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2"><span class="text-lg">💕</span><span class="font-display text-lg text-white/60">포즈픽 PosePik</span></div>
-      <div class="flex items-center gap-6 text-sm"><a href="terms.html" class="hover:text-white/70 transition-colors">이용약관</a><a href="privacy.html" class="hover:text-white/70 transition-colors">개인정보처리방침</a><a href="contact.html" class="hover:text-white/70 transition-colors">문의하기</a></div>
-      <div class="text-sm">&copy; 2025 포즈픽 PosePik. Made by 이준영</div>
+      <div class="flex items-center gap-2">
+        <span class="text-lg">💕</span>
+        <span class="font-display text-lg text-white/75">포즈픽 PosePik</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm">
+        <a href="terms.html" class="hover:text-white transition-colors">이용약관</a>
+        <a href="privacy.html" class="hover:text-white transition-colors">개인정보처리방침</a>
+        <a href="contact.html" class="hover:text-white transition-colors">문의하기</a>
+        <a href="sitemap.xml" class="hover:text-white transition-colors">사이트맵</a>
+      </div>
+      <div class="text-xs sm:text-sm">&copy; 2026 포즈픽 PosePik. Made by 이준영</div>
     </div>
   </footer>
 
+  <!-- INTERACTIVE JAVASCRIPT ENGINE -->
   <script>
-    const observer=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+    /* ==========================================================================
+       1. Cursor Glow & Hero 3D Mouse Parallax
+       ========================================================================== */
+    const cursorGlow = document.getElementById('cursor-glow');
+    const phoneFront = document.getElementById('hero-phone-front');
+    const phoneBack = document.getElementById('hero-phone-back');
+
+    window.addEventListener('mousemove', (e) => {
+      if (cursorGlow) {
+        cursorGlow.style.left = `${e.clientX}px`;
+        cursorGlow.style.top = `${e.clientY}px`;
+      }
+      // Subtle 3D Parallax on Hero Phones
+      if (window.innerWidth >= 1024 && phoneFront && phoneBack) {
+        const x = (window.innerWidth / 2 - e.clientX) / 45;
+        const y = (window.innerHeight / 2 - e.clientY) / 45;
+        phoneFront.style.transform = `translate(${-36 - x}px, ${16 - y}px) rotate(-3deg)`;
+        phoneBack.style.transform = `translate(${64 + x * 1.3}px, ${-24 + y * 1.3}px) rotate(6deg)`;
+      }
+    });
+
+    /* ==========================================================================
+       2. 3D Tilt Effect on Bento Cards
+       ========================================================================== */
+    document.querySelectorAll('.tilt-card').forEach((card) => {
+      const glare = card.querySelector('.tilt-glare');
+      card.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 768) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -4;
+        const rotateY = ((x - centerX) / centerX) * 4;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        if (glare) {
+          glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.6), transparent 60%)`;
+        }
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      });
+    });
+
+    /* ==========================================================================
+       3. Interactive Lab 1: AI Pose Matching Simulator (Couple '손 놓으면 지는 거' vs Solo '말랑콩떡')
+       ========================================================================== */
+    const SIM_DATA = {
+      couple: {
+        badge: '💑 커플 2인 모드 (9가지 포즈 중)',
+        title: '손 놓으면 지는 거',
+        desc: '손을 꼭 잡아주세요',
+        emoji: '🤝💑',
+        rewardBadge: "'손잡기 장인 🤝' 배지를 획득했어요!",
+        rewardIcon: '🤝',
+        criteria: [
+          { id: 'c1', icon: '🤚', name: '손잡기', sub: '두 손목이 가까이 있는지', weight: 50, checked: true },
+          { id: 'c2', icon: '↔️', name: '손 위치', sub: '잡은 손이 두 사람 사이에 있는지', weight: 20, checked: false },
+          { id: 'c3', icon: '👁️', name: '마주보기', sub: '서로를 바라보고 있는지', weight: 30, checked: false },
+        ]
+      },
+      solo: {
+        badge: '🍡 NEW 솔로 1인 모드 (7가지 포즈 중)',
+        title: '말랑콩떡',
+        desc: '양손으로 볼콕을 만들고 팔꿈치를 모아 귀엽게 내리세요',
+        emoji: '🍡😊',
+        rewardBadge: "'말랑콩떡 🍡' 솔로 포즈 촬영 완료!",
+        rewardIcon: '🍡',
+        criteria: [
+          { id: 's1', icon: '👈', name: '왼쪽 볼콕', sub: '왼손으로 왼쪽 볼을 콕 찌르는지', weight: 25, checked: true },
+          { id: 's2', icon: '👉', name: '오른쪽 볼콕', sub: '오른손으로 오른쪽 볼을 콕 찌르는지', weight: 25, checked: false },
+          { id: 's3', icon: '⚖️', name: '양손 볼 높이 균형', sub: '양손의 볼콕 높이가 수평으로 균형 잡혔는지', weight: 25, checked: false },
+          { id: 's4', icon: '⏬', name: '팔꿈치 모아 내리기', sub: '양쪽 팔꿈치를 모아 자연스럽게 내렸는지', weight: 25, checked: false },
+        ]
+      }
+    };
+
+    let currentSimMode = 'couple';
+    let countdownTimer = null;
+    const CIRCUMFERENCE = 2 * Math.PI * 82; // ~515.22
+
+    function switchSimMode(mode) {
+      currentSimMode = mode;
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+      document.getElementById('sim-countdown-badge').classList.add('hidden');
+
+      const tabCouple = document.getElementById('sim-tab-couple');
+      const tabSolo = document.getElementById('sim-tab-solo');
+
+      if (mode === 'couple') {
+        tabCouple.className = 'px-5 sm:px-7 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all bg-gradient-to-r from-candy to-vividPurple text-white shadow-md flex items-center gap-2';
+        tabSolo.className = 'px-5 sm:px-7 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all text-dark/60 hover:text-dark flex items-center gap-2';
+      } else {
+        tabSolo.className = 'px-5 sm:px-7 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all bg-gradient-to-r from-vividPurple to-candy text-white shadow-md flex items-center gap-2';
+        tabCouple.className = 'px-5 sm:px-7 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all text-dark/60 hover:text-dark flex items-center gap-2';
+      }
+
+      const data = SIM_DATA[mode];
+      document.getElementById('sim-mode-badge').textContent = data.badge;
+      document.getElementById('sim-pose-title').textContent = data.title;
+      document.getElementById('sim-pose-desc').textContent = data.desc;
+      document.getElementById('sim-emoji').textContent = data.emoji;
+
+      renderSimCriteria();
+      updateSimScore(false);
+    }
+
+    function renderSimCriteria() {
+      const container = document.getElementById('sim-criteria-list');
+      const list = SIM_DATA[currentSimMode].criteria;
+      container.innerHTML = list.map((item, idx) => `
+        <div onclick="toggleCriteria(${idx})"
+             class="cursor-pointer rounded-2xl p-4 border-2 transition-all flex items-center justify-between gap-3 select-none ${
+               item.checked
+                 ? 'bg-white border-candy shadow-md scale-[1.01]'
+                 : 'bg-white/60 border-gray-100 hover:border-rose-200 opacity-75 hover:opacity-100'
+             }">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 transition-colors ${
+              item.checked ? 'bg-gradient-to-br from-candy to-vividPurple text-white shadow-sm' : 'bg-rose-50 text-candy'
+            }">
+              ${item.checked ? '✓' : item.icon}
+            </div>
+            <div>
+              <div class="font-extrabold text-base text-dark flex items-center gap-2">
+                ${item.name}
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                  item.checked ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'
+                }">${item.checked ? '인식됨' : '클릭하여 맞추기'}</span>
+              </div>
+              <div class="text-xs text-dark/50 mt-0.5">${item.sub}</div>
+            </div>
+          </div>
+          <div class="shrink-0 px-3.5 py-1.5 rounded-full font-extrabold text-sm ${
+            item.checked ? 'bg-candy text-white' : 'bg-rose-100/70 text-candy'
+          }">
+            +${item.weight}%
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleCriteria(index) {
+      const item = SIM_DATA[currentSimMode].criteria[index];
+      item.checked = !item.checked;
+      renderSimCriteria();
+      updateSimScore(true);
+    }
+
+    function resetSimCriteria() {
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+      document.getElementById('sim-countdown-badge').classList.add('hidden');
+      SIM_DATA[currentSimMode].criteria.forEach(c => c.checked = false);
+      renderSimCriteria();
+      updateSimScore(false);
+    }
+
+    function runAutoMatchDemo() {
+      resetSimCriteria();
+      const list = SIM_DATA[currentSimMode].criteria;
+      list.forEach((item, idx) => {
+        setTimeout(() => {
+          item.checked = true;
+          renderSimCriteria();
+          updateSimScore(idx === list.length - 1);
+        }, (idx + 1) * 280);
+      });
+    }
+
+    function updateSimScore(triggerCaptureIfReady) {
+      const list = SIM_DATA[currentSimMode].criteria;
+      const total = list.reduce((sum, item) => sum + (item.checked ? item.weight : 0), 0);
+
+      document.getElementById('sim-score-text').textContent = total;
+      const offset = CIRCUMFERENCE - (total / 100) * CIRCUMFERENCE;
+      document.getElementById('sim-gauge-ring').style.strokeDashoffset = offset;
+
+      const statusEl = document.getElementById('sim-status-text');
+      const ttsEl = document.getElementById('sim-tts-message');
+
+      if (total >= 85) {
+        statusEl.textContent = '🎉 85% 돌파! 자동 촬영 시작!';
+        statusEl.className = 'text-xs font-extrabold text-candy mt-1 animate-pulse';
+        ttsEl.textContent = currentSimMode === 'couple'
+          ? '"완벽해요! 두 손을 꼭 잡고 서로 마주보는 모습이 아주 예뻐요. 자동 촬영합니다!"'
+          : '"말랑콩떡 포즈 완벽해요! 볼콕과 팔꿈치 각도 최고! 자동 촬영합니다!"';
+        if (triggerCaptureIfReady) {
+          startCaptureCountdown();
+        }
+      } else if (total > 0) {
+        const missing = list.find(i => !i.checked);
+        statusEl.textContent = `자동 촬영까지 ${85 - total}% 남음`;
+        statusEl.className = 'text-xs font-bold text-vividPurple mt-1';
+        ttsEl.textContent = missing
+          ? `"조금만 더! '${missing.name}' 자세를 맞추면 85%가 넘어요~"`
+          : '"포즈를 인식하고 있어요!"';
+      } else {
+        statusEl.textContent = '85% 이상 시 자동촬영';
+        statusEl.className = 'text-xs font-bold text-dark/45 mt-1';
+        ttsEl.textContent = '"아래 평가 항목을 클릭하거나 \'원클릭 매칭 체험\'을 눌러 포즈를 완성해보세요!"';
+      }
+    }
+
+    function startCaptureCountdown() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      const badge = document.getElementById('sim-countdown-badge');
+      badge.classList.remove('hidden');
+      let sec = 3; // Fast web experience countdown
+      badge.textContent = `${sec}s`;
+
+      countdownTimer = setInterval(() => {
+        sec--;
+        if (sec > 0) {
+          badge.textContent = `${sec}s`;
+        } else {
+          clearInterval(countdownTimer);
+          countdownTimer = null;
+          badge.textContent = '찰칵! 📸';
+          triggerCameraShutter();
+        }
+      }, 420);
+    }
+
+    function triggerCameraShutter() {
+      // 1. White Flash
+      const flash = document.getElementById('camera-flash');
+      flash.classList.add('flash-active');
+      setTimeout(() => flash.classList.remove('flash-active'), 120);
+
+      // 2. Confetti Fireworks
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 75,
+          origin: { y: 0.6 },
+          colors: ['#E83E68', '#B535E8', '#F97316', '#FFB088']
+        });
+      }
+
+      // 3. Show Badge Toast
+      const toast = document.getElementById('badge-toast');
+      const data = SIM_DATA[currentSimMode];
+      document.getElementById('toast-icon').textContent = data.rewardIcon;
+      document.getElementById('toast-title').textContent = data.rewardBadge;
+      toast.classList.remove('translate-y-28', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-28', 'opacity-0');
+      }, 4000);
+    }
+
+    /* ==========================================================================
+       4. Interactive Lab 2: Random Pose Slot Machine & Time Attack Demo
+       ========================================================================== */
+    const POSE_POOLS = {
+      couple: [
+        { emoji: '🙆‍♀️🙆‍♂️', title: '우리가 하트 그자체', desc: '두 사람이 머리 위로 팔을 올려 큰 하트를 만들어요 (매칭 목표 85%)' },
+        { emoji: '🥰', title: '서로의 얼굴을 감싸는 우리', desc: '마주 보고 서로의 볼을 다정하게 감싸며 아이컨택해요' },
+        { emoji: '🤗', title: '뒤에서 안아도 되는 사이', desc: '한 사람이 뒤에서 따뜻하게 백허그하며 환하게 웃어요' },
+        { emoji: '📸', title: '뭐 찍지 하다가 그냥 찍은 사진', desc: '꾸미지 않은 자연스러운 순간을 가장 예쁘게 담아내요' },
+        { emoji: '🤝', title: '손잡고 너만 보는 나', desc: '나란히 손을 맞잡고 서로를 바라보는 설렘 가득 포즈' },
+        { emoji: '🎬', title: '영화 포스터 각', desc: '로맨스 영화 포스터 주인공 같은 시그니처 커플 포즈' },
+        { emoji: '↔️', title: '이 거리도 충분하지 않아', desc: '어깨가 닿을 듯 말 듯 더 가까이 밀착하여 친밀도 UP!' },
+        { emoji: '👩‍❤️‍👨', title: '자연스럽게 기대는 법', desc: '한쪽 어깨에 살며시 기대어 편안하고 다정한 무드 연출' },
+        { emoji: '🌭', title: '핫도그', desc: '장난기 가득한 케미를 뽐내는 유쾌하고 귀여운 커플 포즈' }
+      ],
+      solo: [
+        { emoji: '✨', title: '예쁨 로딩 완료', desc: '카메라 앞 가장 예쁜 각도를 AI가 실시간으로 찾아주는 포즈' },
+        { emoji: '📡', title: '심쿵 와이파이', desc: '매력 전파 발사! 센스 넘치는 손짓으로 완성하는 솔로 포즈' },
+        { emoji: '🍡', title: '말랑콩떡', desc: '왼쪽 볼콕 25% + 오른쪽 볼콕 25% + 양손 볼 높이 균형 25% + 팔꿈치 모아 내리기 25%' },
+        { emoji: '💖', title: '볼에 하트 ON', desc: '양손으로 볼에 사랑스러운 하트를 켜는 정석 셀카 포즈' },
+        { emoji: '🫶', title: '하트 플렉스', desc: '힙하고 당당하게 하트를 뽐내는 트렌디 솔로 포즈' },
+        { emoji: '💓', title: '심장아, 나대지마', desc: '두근거리는 설렘을 손끝 제스처로 귀엽게 표현하는 포즈' },
+        { emoji: '🎉', title: '귀여움 과다발사', desc: '보는 사람까지 미소 짓게 만드는 과즙미 팡팡 솔로 포즈' }
+      ]
+    };
+
+    let currentRoulettePool = 'couple';
+    let isSpinning = false;
+
+    function setRoulettePool(pool) {
+      currentRoulettePool = pool;
+      const btnCouple = document.getElementById('roulette-mode-couple');
+      const btnSolo = document.getElementById('roulette-mode-solo');
+      if (pool === 'couple') {
+        btnCouple.className = 'px-3 py-1 rounded-full bg-white text-candy shadow-sm transition-all';
+        btnSolo.className = 'px-3 py-1 rounded-full text-dark/50 hover:text-dark transition-all';
+      } else {
+        btnSolo.className = 'px-3 py-1 rounded-full bg-white text-vividPurple shadow-sm transition-all';
+        btnCouple.className = 'px-3 py-1 rounded-full text-dark/50 hover:text-dark transition-all';
+      }
+      spinRandomPose();
+    }
+
+    function spinRandomPose() {
+      if (isSpinning) return;
+      isSpinning = true;
+      const pool = POSE_POOLS[currentRoulettePool];
+      const emojiEl = document.getElementById('slot-emoji');
+      const badgeEl = document.getElementById('slot-badge');
+      const titleEl = document.getElementById('slot-title');
+      const descEl = document.getElementById('slot-desc');
+
+      let ticks = 0;
+      const interval = setInterval(() => {
+        const temp = pool[ticks % pool.length];
+        emojiEl.textContent = temp.emoji;
+        emojiEl.style.transform = 'scale(1.18)';
+        titleEl.textContent = temp.title;
+        badgeEl.textContent = '🎲 랜덤 룰렛 회전 중...';
+        setTimeout(() => { emojiEl.style.transform = 'scale(1)'; }, 70);
+        ticks++;
+
+        if (ticks >= 10) {
+          clearInterval(interval);
+          const picked = pool[Math.floor(Math.random() * pool.length)];
+          emojiEl.textContent = picked.emoji;
+          badgeEl.textContent = currentRoulettePool === 'couple' ? '🎉 커플 2인 랜덤 포즈 당첨!' : '🎉 솔로 1인 랜덤 포즈 당첨!';
+          titleEl.textContent = `"${picked.title}"`;
+          descEl.textContent = picked.desc;
+          isSpinning = false;
+        }
+      }, 85);
+    }
+
+    /* Time Attack Demo */
+    let taInterval = null;
+    let taRemaining = 180.0;
+    let taCombo = 0;
+
+    function setTimeAttackMin(min, btnEl) {
+      if (taInterval) {
+        clearInterval(taInterval);
+        taInterval = null;
+      }
+      document.querySelectorAll('.ta-btn').forEach(b => {
+        b.className = 'ta-btn px-3 py-1 rounded-full text-dark/50';
+      });
+      btnEl.className = 'ta-btn px-3 py-1 rounded-full bg-white text-sunsetOrange shadow-sm';
+      taRemaining = min * 60;
+      taCombo = 0;
+      document.getElementById('ta-combo-count').textContent = taCombo;
+      document.getElementById('ta-timer-display').textContent = `${String(min).padStart(2, '0')}:00.0`;
+      document.getElementById('ta-action-btn').innerHTML = '<span>⏱️ 타임어택 챌린지 체험!</span>';
+    }
+
+    function toggleTimeAttackDemo() {
+      const btn = document.getElementById('ta-action-btn');
+      if (taInterval) {
+        clearInterval(taInterval);
+        taInterval = null;
+        btn.innerHTML = '<span>⏱️ 이어서 카운트다운</span>';
+        return;
+      }
+      btn.innerHTML = '<span>📸 연속 포즈 성공 중! (클릭 시 일시정지)</span>';
+      let tick = 0;
+      taInterval = setInterval(() => {
+        taRemaining = Math.max(0, taRemaining - 0.1);
+        const mins = Math.floor(taRemaining / 60);
+        const secs = (taRemaining % 60).toFixed(1);
+        document.getElementById('ta-timer-display').textContent = `${String(mins).padStart(2, '0')}:${secs.padStart(4, '0')}`;
+        tick++;
+        if (tick % 12 === 0) {
+          taCombo++;
+          document.getElementById('ta-combo-count').textContent = taCombo;
+        }
+      }, 100);
+    }
+
+    /* ==========================================================================
+       5. Interactive Lab 3: 3D Screenshot Showcase Switcher
+       ========================================================================== */
+    const SHOWCASE_CAPTIONS = [
+      {
+        title: '✨ 1. 메인 홈 화면',
+        desc: '포즈 완료율 원형 게이지(33% · 3/9 완료), 체크(✓) 표시가 된 완료 포즈 카드, 우측 상단 촬영 버튼, 그리고 하단의 캡슐 버튼(랜덤 뽑기 · 타임어택 · 사진첩 · 기록 · 배지)이 한눈에 펼쳐집니다.'
+      },
+      {
+        title: '🎯 2. 포즈 가이드 & 평가 기준 화면',
+        desc: '"손 놓으면 지는 거"(손잡기 50% · 손 위치 20% · 마주보기 30%)나 솔로 모드 "말랑콩떡"처럼 각 포즈마다 세부 평가 항목과 퍼센트(%) 비중을 직관적인 카드로 안내해 누구나 쉽게 따라 할 수 있어요.'
+      },
+      {
+        title: '🏅 3. 배지 모음 컬렉션 화면',
+        desc: '1/10 획득 게이지와 응원 메시지("좋은 시작이에요! 계속 도전해보세요! 💪"), 획득 날짜가 기록된 하트 장인(2025년 12월 24일)을 비롯해 손잡기 장인, 거리두기 장인 등 10가지 특별 배지를 수집할 수 있어요.'
+      }
+    ];
+
+    function selectShowcase(index) {
+      for (let i = 0; i < 3; i++) {
+        const item = document.getElementById(`sc-item-${i}`);
+        const tab = document.getElementById(`sc-tab-${i}`);
+        if (i === index) {
+          item.className = 'showcase-item active flex flex-col items-center';
+          tab.className = 'px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-gradient-to-r from-candy to-vividPurple text-white shadow-md';
+        } else {
+          item.className = 'showcase-item inactive flex flex-col items-center';
+          tab.className = 'px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-white text-dark/60 hover:text-dark border border-gray-200';
+        }
+      }
+      document.getElementById('sc-caption-title').textContent = SHOWCASE_CAPTIONS[index].title;
+      document.getElementById('sc-caption-desc').textContent = SHOWCASE_CAPTIONS[index].desc;
+    }
+
+    /* ==========================================================================
+       6. Interactive Lab 4: Badge Wall Unlock & Scenario Tabs
+       ========================================================================== */
+    const BADGES_LIST = [
+      { emoji: '💕', name: '하트 장인', unlocked: true, date: '2025년 12월 24일' },
+      { emoji: '👀', name: '아이컨택 장인', unlocked: false },
+      { emoji: '🤗', name: '백허그 장인', unlocked: false },
+      { emoji: '📸', name: '내추럴 장인', unlocked: false },
+      { emoji: '🤝', name: '손잡기 장인', unlocked: false },
+      { emoji: '🎬', name: '포스터 장인', unlocked: false },
+      { emoji: '↔️', name: '거리두기 장인', unlocked: false },
+      { emoji: '👩‍❤️‍👨', name: '기대기 장인', unlocked: false },
+      { emoji: '🌭', name: '핫도그 장인', unlocked: false },
+      { emoji: '🍡', name: '말랑 콩떡 마스터', unlocked: true, date: 'NEW 솔로 배지' }
+    ];
+
+    function renderBadgeWall() {
+      const grid = document.getElementById('badge-wall-grid');
+      const unlockedCount = BADGES_LIST.filter(b => b.unlocked).length;
+      document.getElementById('unlocked-badge-counter').textContent = unlockedCount;
+
+      grid.innerHTML = BADGES_LIST.map((b, idx) => `
+        <div onclick="toggleBadgeUnlock(${idx})"
+             class="badge-item rounded-2xl p-4 text-center border transition-all select-none ${
+               b.unlocked
+                 ? 'unlocked text-dark'
+                 : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10'
+             }">
+          <div class="relative w-14 h-14 mx-auto rounded-full flex items-center justify-center text-2xl mb-2.5 ${
+            b.unlocked ? 'bg-gradient-to-br from-rose-100 to-purple-100 shadow-inner' : 'bg-white/10 grayscale'
+          }">
+            <span>${b.emoji}</span>
+            <span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full text-xs flex items-center justify-center ${
+              b.unlocked ? 'bg-candy text-white shadow' : 'bg-gray-700 text-gray-300'
+            }">${b.unlocked ? '✓' : '🔒'}</span>
+          </div>
+          <div class="font-extrabold text-xs sm:text-sm ${b.unlocked ? 'text-dark' : 'text-white/80'}">${b.name}</div>
+          <div class="text-[11px] mt-0.5 font-semibold ${b.unlocked ? 'text-candy' : 'text-white/40'}">
+            ${b.unlocked ? (b.date || '획득 완료! ✨') : '클릭해 잠금해제'}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleBadgeUnlock(idx) {
+      BADGES_LIST[idx].unlocked = !BADGES_LIST[idx].unlocked;
+      renderBadgeWall();
+      if (BADGES_LIST[idx].unlocked && typeof confetti === 'function') {
+        confetti({
+          particleCount: 35,
+          spread: 55,
+          origin: { y: 0.75 }
+        });
+      }
+    }
+
+    function switchScenario(mode) {
+      const coupleBox = document.getElementById('scenario-couple');
+      const soloBox = document.getElementById('scenario-solo');
+      const btnCouple = document.getElementById('scen-btn-couple');
+      const btnSolo = document.getElementById('scen-btn-solo');
+
+      if (mode === 'couple') {
+        coupleBox.classList.remove('hidden');
+        soloBox.classList.add('hidden');
+        btnCouple.className = 'px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-gradient-to-r from-candy to-vividPurple text-white shadow-md';
+        btnSolo.className = 'px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all text-white/65 hover:text-white';
+      } else {
+        soloBox.classList.remove('hidden');
+        coupleBox.classList.add('hidden');
+        btnSolo.className = 'px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all bg-gradient-to-r from-vividPurple to-candy text-white shadow-md';
+        btnCouple.className = 'px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-extrabold transition-all text-white/65 hover:text-white';
+      }
+    }
+
+    /* ==========================================================================
+       7. Initialize Page & Intersection Observer
+       ========================================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      switchSimMode('couple');
+      renderBadgeWall();
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    });
   </script>
 </body>
 </html>
